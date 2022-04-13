@@ -1,0 +1,31 @@
+<ion-content class="ion-padding" style="text-align: center;">
+
+  <!-- <div style="height: 100px; padding: 25px 0; position: relative;"> -->
+    
+    <!-- <div class="circle-1">
+      <div class="inner-circle">
+        <ion-icon name="checkmark"></ion-icon>
+      </div>
+    </div> -->
+
+
+  <!-- </div> -->
+    <div style="height: 165px; width: 165px; margin: auto; position: relative; display: block; margin-bottom: 8px; background-size: cover; background-position: center;"
+    [ngStyle]="{'background-image':'url('+data.image+')'}">
+      
+    </div>
+
+  <h3 style="min-height: 105px;">
+
+    {{data.name}} <br>
+
+    <span style="font-size: 16px;">{{data.description}}</span>
+
+  </h3>
+
+    <br>
+    <br>
+
+    <button style="box-shadow: none; margin: 0;" class="je-button" (click)="close()">Cerrar</button>
+
+</ion-content>

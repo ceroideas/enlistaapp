@@ -1,27 +1,65 @@
 <ion-app>
   <ion-split-pane contentId="main-content">
     <ion-menu contentId="main-content" type="overlay">
-      <ion-content>
+      <ion-content style="text-align: left;">
+        <!-- // -->
         <ion-list id="inbox-list">
-          <ion-list-header>Inbox</ion-list-header>
-          <ion-note>hi@ionicframework.com</ion-note>
+          <ion-list-header style="margin-bottom: 40px; text-align: center;">
+            <img style="margin: auto;" src="assets/logo-02.svg" alt=""></ion-list-header>
+          <!-- <ion-note>hi@ionicframework.com</ion-note> -->
 
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
-            <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
-              <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
+            <ion-item (click)="checkLogin(p.withLogin,p.url);selectedIndex = i" routerDirection="root" lines="none" detail="false" [class.selected]="selectedIndex == i">
+              <!-- <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon> -->
+              <ion-label>{{ p.title }}</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+
+          <ion-menu-toggle auto-hide="false" *ngIf="user?.id != -1">
+            <ion-item (click)="logout()" lines="none" detail="false">
+              <ion-label>SALIR</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+
+          <ion-menu-toggle auto-hide="false" *ngIf="user?.id == -1">
+            <ion-item (click)="toLogin()" lines="none" detail="false">
+              <ion-label>INICIAR SESIÓN</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+
+
+          <ion-menu-toggle auto-hide="false" *ngFor="let p of policyPages; let i = index">
+            <ion-item (click)="selectedIndex = i" routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" [class.selected]="selectedIndex == i">
+              <!-- <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon> -->
               <ion-label>{{ p.title }}</ion-label>
             </ion-item>
           </ion-menu-toggle>
         </ion-list>
 
-        <ion-list id="labels-list">
-          <ion-list-header>Labels</ion-list-header>
+        <!-- <div (click)="test()">TEST</div> -->
 
-          <ion-item *ngFor="let label of labels" lines="none">
-            <ion-icon slot="start" ios="bookmark-outline" md="bookmark-sharp"></ion-icon>
-            <ion-label>{{ label }}</ion-label>
-          </ion-item>
-        </ion-list>
+        <div *ngIf="!showQr && user?.id != -1" style="display: flex; align-items: center;">
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <h6 style="padding-left: 8px; color: #fff;">Código de usuario: {{user?.id}}</h6>
+        </div>
+        <div *ngIf="showQr" style="display: flex; align-items: center;">
+
+          <div style="text-align: center;" [routerLink]="['/qr']" routerDirection="forward" (click)="menu.toggle()">
+
+            <br>
+            
+            <img src="assets/escaneo-de-codigo-qr.svg" alt="" style="width: 50%;">
+
+            <h5 style="color: #fff;">Abrir lector QR</h5>
+
+          </div>
+        </div>
+
+        
       </ion-content>
     </ion-menu>
     <ion-router-outlet id="main-content"></ion-router-outlet>

@@ -1,0 +1,139 @@
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-title>login</ion-title>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content>
+
+  <div class="top-login">
+
+    <div class="top-logo">
+      <img src="assets/logo-01.svg" alt="">
+    </div>
+    
+  </div>
+
+  <form class="form" [formGroup]="validations_form" (ngSubmit)="loginUser(validations_form.value)">
+      
+    <ion-list>
+
+      <ion-item class="ion-no-padding">
+        <ion-label position="floating">Email</ion-label>
+        <ion-input formControlName="email" type="email"></ion-input>
+
+        <!-- <span slot="end" *ngIf="email.length > 8"> -->
+          <!-- <ion-icon name="checkmark"></ion-icon> -->
+        <!-- </span> -->
+      </ion-item>
+        <div class="validation-errors">
+                <ng-container *ngFor="let validation of validation_messages.email">
+                  <div class="error-message" *ngIf="validations_form.get('email').hasError(validation.type) && (validations_form.get('email').dirty || validations_form.get('email').touched)">
+                    {{ validation.message }}
+                  </div>
+                </ng-container>
+              </div>
+
+      <ion-item class="ion-no-padding">
+        <ion-label position="floating">Contraseña</ion-label>
+        <ion-input formControlName="password" [type]="show_password_0" ></ion-input>
+
+        <span slot="end" style="
+            position: absolute;
+            right: 0;
+            top: 24px;
+            font-size: 24px;
+            z-index: 9999;">
+          
+          <ion-icon name="eye" (click)="changeView(0)"></ion-icon>
+
+          <!-- <ion-icon *ngIf="password.length > 4" name="checkmark"></ion-icon> -->
+        </span>
+      </ion-item>
+        <div class="validation-errors">
+                <ng-container *ngFor="let validation of validation_messages.password">
+                  <div class="error-message" *ngIf="validations_form.get('password').hasError(validation.type) && (validations_form.get('password').dirty || validations_form.get('password').touched)">
+                    {{ validation.message }}
+                  </div>
+                </ng-container>
+              </div>
+
+      <!-- <ion-item>
+      </ion-item> -->
+    </ion-list>
+      <!-- <ion-label>
+        <ion-checkbox id="local" style="position: relative; top: 3px;" [(ngModel)]="local"></ion-checkbox>
+
+        <label (click)="changeLocal()"> Soy un local (Provisional)</label>
+      </ion-label> -->
+
+      <p style="color: #ccc; font-size: 13px; line-height: 1.6" (click)="doRemember()">
+        <ion-icon *ngIf="remember" name="checkmark-circle" style="color: lightgreen; font-size: 16px; position: relative; top: 2px;"></ion-icon>
+        <ion-icon *ngIf="!remember" name="ellipse-outline" style="color: lightgreen; font-size: 16px; position: relative; top: 2px;"></ion-icon>
+        Acuérdate de mí
+      </p>
+
+      <p style="color: #ccc; font-size: 13px; line-height: 1.6" [routerLink]="['/recover']">
+        Recuperar Contraseña
+      </p>
+
+    <button type="submit" class="je-button" [disabled]="!validations_form.valid">Accede</button>
+
+    <!-- <span class="already">No tengo una cuenta, <span [routerLink]="['/register']" routerDirection="root">Registrar</span></span> -->
+
+    <ion-row>
+      <ion-col size="5" style="position: relative;">
+        <span class="line" style="right: 0"></span>
+      </ion-col>
+      <ion-col size="2" style="text-align: center;">
+        <b>O</b>
+      </ion-col>
+      <ion-col size="5" style="position: relative;">
+        <span class="line" style="left: 0"></span>
+      </ion-col>
+    </ion-row>
+
+    <br>
+
+    <ion-row *ngIf="api.platform.is('ios')">
+      <ion-col size="4">
+      <img src="assets/apple.png" alt="" class="center-block apple" (click)="api.loginApple()">
+    </ion-col>
+    <!-- <ion-col size="3">
+    </ion-col> -->
+    <ion-col size="4">
+      <img src="assets/fb.svg" alt="" class="center-block" (click)="api.loginFacebook()">
+    </ion-col>
+    <ion-col size="4">
+      <img src="assets/google.svg" alt="" class="center-block" (click)="api.loginGoogle()">
+    </ion-col>
+      <!-- <ion-col size="3">
+        <img src="assets/Twitter.svg" alt="" class="center-block">
+      </ion-col> -->
+    </ion-row>
+
+    <ion-row *ngIf="!api.platform.is('ios')">
+    <ion-col size="3">
+    </ion-col>
+    <ion-col size="3">
+      <img src="assets/fb.svg" alt="" class="center-block" (click)="api.loginFacebook()">
+    </ion-col>
+    <ion-col size="3">
+      <img src="assets/google.svg" alt="" class="center-block" (click)="api.loginGoogle()">
+    </ion-col>
+      <!-- <ion-col size="3">
+        <img src="assets/Twitter.svg" alt="" class="center-block">
+      </ion-col> -->
+    </ion-row>
+
+    <br>
+
+    <p style="color: #ccc; font-size: 14px; line-height: 1.6">
+      ¿Necesitas una cuenta? <b [routerLink]="['/registration']" routerDirection="root">Regístrate</b> <br> <br>
+
+      ¿Eres un Bar? <b [routerLink]="['/register2']" routerDirection="root">Regístrate</b>
+    </p>
+
+  </form>
+
+</ion-content>

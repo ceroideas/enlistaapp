@@ -1,0 +1,120 @@
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-title>login</ion-title>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content>
+
+  <div class="top-login" style="background-image: url('assets/img/imagenes 9.jpg');">
+
+    <ion-icon name="menu-outline" (click)="api.showmenu()" class="menu-button cw"></ion-icon>
+
+    <div class="top-logo">
+      <img src="assets/logo-01.svg" alt="">
+    </div>
+    
+  </div>
+
+  <br>
+  <br>
+  <br>
+  <br>
+
+  <div style="padding: 0 16px;">
+    <ion-searchbar [(ngModel)]="query" placeholder="Buscar"></ion-searchbar>
+
+    <br>
+
+    <div style="margin-bottom: 24px;">
+
+      <div *ngIf="!reserves.length && loaded">
+        <h5 style="text-align: center; color: silver">No hay resultados</h5>
+      </div>
+
+
+      <div class="fechas" *ngFor="let r of reserves">
+        <h5 *ngIf="(r.data | search:query:'reservation').length" style="text-align: right; margin-top: 15px;">{{r.date | date:'dd-MM-Y'}}</h5>
+
+        <div class="reservas" *ngFor="let s of r.data | search:query:'reservation'">
+          
+          <h5>{{s.reservation?.name}}</h5>
+          <ion-card class="ion-no-margin" style="border-radius: 12px;">
+            <ion-card-content style="padding: 12px;">
+
+              <span *ngIf="s.user">
+                {{s.user.name}} <small>({{s.counts}} reservas hasta la fecha)</small> <br>
+                <!-- <span *ngIf="s.dni">DNI: {{s.dni}} <br></span> -->
+              </span>
+
+              <span *ngIf="!s.user">
+                {{s.name}} <small>({{s.phone}})</small> <br>
+                <span><b>{{s.email}}</b> <br></span>
+              </span>
+              <span style="display: block; margin-top: 8px; font-size: 12px;">
+                Código de Reserva: <b>{{s.code}}</b>
+              </span>
+
+              <ion-row>
+                <ion-col style="text-align: left; font-size: 12px;" class="ion-no-padding" size="4">
+
+                  <br>
+                  
+                  <span style="display: block; margin-bottom: 16px;">{{s.px}} personas</span>
+                  <span>A las {{s.hour_from}} </span>
+                  <!-- <span>{{s.hour_from}} a {{s.hour_to}} </span> -->
+
+                </ion-col>
+                <ion-col style="text-align: center; font-size: 12px;" size="4">
+
+                  <br>
+
+                  <span style="display: block; margin-bottom: 8px;">&nbsp;</span>
+                  <b style="font-size: 16px; color: gold;">{{s.schedule.price}}</b>
+
+                </ion-col>
+                <ion-col size="4" style="text-align: right;" *ngIf="s.user && (s.status == 2 || s.status === 0)">
+                  <img [ngClass]="{'opaque':s.user && (s.status == 2 || s.status === 0)}" src="assets/escaneo-de-codigo-qr-2.svg" alt="" style="width: 65%; height:auto;">
+                </ion-col>
+                <ion-col size="4" style="text-align: right; position: relative;"
+                *ngIf="s.user && (s.status == 1)"
+                (click)="selectOption(s)" routerDirection="forward">
+                  <img [ngClass]="{'opaque':s.user && (s.status == 2 || s.status === 0)}" src="assets/escaneo-de-codigo-qr-2.svg" alt="" style="width: 65%; height:auto;">
+
+                </ion-col>
+
+                <ion-col size="4" style="text-align: right;"
+                *ngIf="s.user && (s.status == null)">
+                  <img [ngClass]="{'opaque':true}" src="assets/escaneo-de-codigo-qr-2.svg" alt="" style="width: 65%; height:auto;">
+                </ion-col>
+
+                <ion-col size="4" style="text-align: right;"
+                *ngIf="!s.user_id && (s.status == 1)"
+                (click)="acceptReserve(s)">
+
+                  <!-- <img [ngClass]="{'opaque':true}" src="assets/1.png" alt="" style="width: 75%; height:auto; border: 1px solid #c1c1c1; border-radius: 3px;"> -->
+
+                  <ion-button color="success" size="medium"> Canjear </ion-button>
+                </ion-col>
+              </ion-row>
+
+              <button *ngIf="s.user && s.status == null" class="btn-reserve" style="background-color: lightgreen; margin-right: 4px;" (click)="aceptar(s.id)">Aceptar reserva</button>
+              <button *ngIf="s.user && s.status == null" class="btn-reserve" (click)="anular(s.id)">Anular reserva</button>
+              <button *ngIf="s.user && s.status == 1" class="btn-reserve" (click)="anular(s.id)">Anular reserva</button>
+              <span *ngIf="s.user && s.status == 0" class="canceled-reserve">La reserva fué anulada</span>
+            </ion-card-content>
+          </ion-card>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button style="--background: #b42d66" (click)="removePreload()" [routerLink]="['create']">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

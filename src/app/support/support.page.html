@@ -1,0 +1,41 @@
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-title>login</ion-title>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content>
+
+  <div class="top-login" style="background-image: url('assets/img/imagenes 10.jpg');">
+
+    <ion-icon name="menu-outline" (click)="api.showmenu()" class="menu-button cw"></ion-icon>
+
+    <div class="top-logo">
+      <img src="assets/logo-01.svg" alt="">
+    </div>
+    
+  </div>
+
+  <br>
+  <br>
+  <br>
+  <br>
+
+  <div style="padding: 0 16px;">
+    <ion-searchbar [(ngModel)]="query" placeholder="Buscar"></ion-searchbar>
+
+    <br>
+
+    <ion-card class="ion-no-margin" style="border-radius: 12px; margin-bottom: 15px;" *ngFor="let f of faqs | search:query:'question'; let i = index">
+      <ion-card-header (click)="show = i">
+        <h4>Q.{{i+1}}: {{f.question}}</h4>
+      </ion-card-header>
+
+      <ion-card-content *ngIf="show == i">
+        <p>{{f.answer}}</p>
+      </ion-card-content>
+    </ion-card>
+
+  </div>
+
+</ion-content>

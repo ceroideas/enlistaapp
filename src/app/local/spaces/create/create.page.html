@@ -1,0 +1,118 @@
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-title>login</ion-title>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content>
+
+  <div class="top-login" style="background-image: url('assets/img/imagenes 7.jpg');">
+
+    <ion-icon name="chevron-back" (click)="api.back()" class="back-button bb"></ion-icon>
+
+    <ion-icon name="menu-outline" (click)="api.showmenu()" class="menu-button cw"></ion-icon>
+
+    <div class="top-logo">
+      <img src="assets/logo-01.svg" alt="">
+    </div>
+    
+  </div>
+
+  <br>
+  <br>
+
+  <div style="padding: 0 16px;">
+
+    <form class="form" [formGroup]="validations_form" (ngSubmit)="registerSpace(validations_form.value)">
+      
+      <ion-list>
+
+        <ion-item class="ion-no-padding">
+          <ion-label position="floating">Nombre</ion-label>
+          <ion-input formControlName="name" type="text" ></ion-input>
+
+          <!-- <span slot="end" *ngIf="name.length > 8"> -->
+            <!-- <ion-icon name="checkmark"></ion-icon> -->
+          <!-- </span> -->
+        </ion-item>
+          <div class="validation-errors">
+                  <ng-container *ngFor="let validation of validation_messages.name">
+                    <div class="error-message" *ngIf="validations_form.get('name').hasError(validation.type) && (validations_form.get('name').dirty || validations_form.get('name').touched)">
+                      {{ validation.message }}
+                    </div>
+                  </ng-container>
+                </div>
+
+        <ion-item class="ion-no-padding">
+          <ion-label position="floating">Descripción</ion-label>
+          <ion-textarea formControlName="description"></ion-textarea>
+
+        </ion-item>
+          <div class="validation-errors">
+                  <ng-container *ngFor="let validation of validation_messages.description">
+                    <div class="error-message" *ngIf="validations_form.get('description').hasError(validation.type) && (validations_form.get('description').dirty || validations_form.get('description').touched)">
+                      {{ validation.message }}
+                    </div>
+                  </ng-container>
+                </div>
+
+        
+        <ion-item class="ion-no-padding">
+          <ion-label position="floating">Precio base</ion-label>
+          <ion-select doneText="Ok" cancelText="Cancelar" formControlName="price">
+            <ion-select-option></ion-select-option>
+            <ion-select-option>$</ion-select-option>
+            <ion-select-option>$$</ion-select-option>
+            <ion-select-option>$$$</ion-select-option>
+          </ion-select>
+        </ion-item>
+          <div class="validation-errors">
+                  <ng-container *ngFor="let validation of validation_messages.price">
+                    <div class="error-message" *ngIf="validations_form.get('price').hasError(validation.type) && (validations_form.get('price').dirty || validations_form.get('price').touched)">
+                      {{ validation.message }}
+                    </div>
+                  </ng-container>
+                </div>
+
+        <ion-item class="ion-no-padding">
+          <ion-label position="floating">Aforo</ion-label>
+          <ion-input formControlName="capacity" type="text" ></ion-input>
+
+          <!-- <span slot="end" *ngIf="name.length > 8"> -->
+            <!-- <ion-icon name="checkmark"></ion-icon> -->
+          <!-- </span> -->
+        </ion-item>
+          <div class="validation-errors">
+                  <ng-container *ngFor="let validation of validation_messages.capacity">
+                    <div class="error-message" *ngIf="validations_form.get('capacity').hasError(validation.type) && (validations_form.get('capacity').dirty || validations_form.get('capacity').touched)">
+                      {{ validation.message }}
+                    </div>
+                  </ng-container>
+                </div>
+
+        <ion-item class="ion-no-padding">
+          <ion-label position="floating">Ignorar aforo</ion-label>
+          <ion-checkbox formControlName="ignore_capacity"></ion-checkbox>
+        </ion-item>
+
+        <br>
+
+        <ion-item class="ion-no-padding" lines="none" style="--inner-padding-end:0 ">
+          <!-- <ion-label position="stacked">Imagen del establecimiento</ion-label> -->
+          <!-- <span slot="end" *ngIf="establishment.length > 8"> -->
+            <!-- <ion-icon establishment="checkmark"></ion-icon> -->
+          <!-- </span> -->
+          <div style="display: flex;align-items: center;justify-content: space-evenly; width: 100%; position: relative; background-size: cover; background-position: center; border-radius: 8px; height: 140px; border: 1px solid silver;" (click)="loadImage()" [ngStyle]="{'background-image':'url('+api.baseUrl+'storage/'+(validations_form.value.image | normalize)+')'}">
+            <ion-icon name="image" style="color: silver; font-size: 62px;"></ion-icon>
+          </div>
+        </ion-item>
+
+        </ion-list>
+
+      <button type="submit" class="je-button" [disabled]="!validations_form.valid">Guardar Información</button>
+
+    </form>
+
+  </div>
+
+</ion-content>

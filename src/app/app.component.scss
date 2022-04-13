@@ -1,5 +1,5 @@
 ion-menu ion-content {
-  --background: var(--ion-item-background, var(--ion-background-color, #fff));
+  --background: var(--ion-item-background, var(--ion-background-color, #b42d66));
 }
 
 ion-menu.md ion-content {
@@ -116,4 +116,16 @@ ion-note {
 
 ion-item.selected {
   --color: var(--ion-color-primary);
+}
+
+ion-label {
+  text-align: left !important;
+  color: #eee !important;
+  font-weight: bold !important;
+  font-size: 13px !important;
+}
+
+ion-content, ion-item, ion-list {
+  --background: #b42d66 !important;
+  background-color: #b42d66 !important;
 }

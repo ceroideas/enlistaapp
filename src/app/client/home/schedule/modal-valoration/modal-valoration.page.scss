@@ -1,0 +1,36 @@
+.circle-1 {
+	background-color: #b42d66bb;
+	padding: 15px;
+	border-radius: 50px;
+	position: absolute;
+	margin: auto;
+	width: 100px;
+	height: 100px;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	top: 0;
+	.inner-circle {
+		padding: 15px;
+		border-radius: 50px;
+		background-color: #b42d66;
+		margin: auto;
+		height: 70px;
+		width: 70px;
+		[name="checkmark"] {
+			color: #d0fa2d;
+			font-size: 40px;
+			font-weight: bolder;
+		}
+	}
+}
+
+h3 {
+	font-size: 26px;
+}
+small {
+	font-size: 12px;
+	font-weight: bold;
+	color: gray;
+	line-height: 1.8;
+}

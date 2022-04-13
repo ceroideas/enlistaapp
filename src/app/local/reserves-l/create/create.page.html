@@ -1,0 +1,217 @@
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-title>login</ion-title>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content>
+
+  <div class="top-login" style="background-image: url('assets/img/imagenes 7.jpg');">
+
+    <ion-icon name="chevron-back" (click)="api.back()" class="back-button bb"></ion-icon>
+
+    <ion-icon name="menu-outline" (click)="api.showmenu()" class="menu-button cw"></ion-icon>
+
+    <div class="top-logo">
+      <img src="assets/logo-01.svg" alt="">
+    </div>
+    
+  </div>
+
+  <br>
+  <br>
+
+  <div style="padding: 0">
+
+    <div class="space-info ion-padding" style="padding-bottom: 0 !important;" *ngIf="preloaded">
+      <h6 style="margin: 0; font-weight: bolder;">{{details?.name}}</h6>
+    </div>
+    <div class="space-info ion-padding" *ngIf="!preloaded">
+
+      <ion-item>
+        <ion-label position="stacked" style="align-self: initial; font-size: 18px !important;">Selecciona un espacio</ion-label>
+        <ion-select interface="action-sheet" doneText="Ok" cancelText="Cancelar" [(ngModel)]="space" (ionChange)="getSpace()">
+          <ion-select-option *ngFor="let s of establishment?.spaces" [value]="s.id"> {{s.name}} </ion-select-option>
+        </ion-select>
+        
+      </ion-item>
+
+    </div>
+    <div class="space-info ion-padding" *ngIf="step >= 1" style="position: relative;">
+      <ion-item>
+        <ion-label position="stacked" style="align-self: initial; font-size: 18px !important;">Buscar un usuario (teléfono o nombre)</ion-label>
+        <!-- <ion-select interface="action-sheet" doneText="Ok" cancelText="Cancelar" [(ngModel)]="space" (ionChange)="getSpace()">
+          <ion-select-option *ngFor="let s of establishment?.spaces" [value]="s.id"> {{s.name}} </ion-select-option>
+        </ion-select> -->
+
+        <ion-input [(ngModel)]="search" debounce="500" (ionChange)="findUser()"></ion-input>
+        
+      </ion-item>
+
+      <br>
+
+      <div class="my-user-list" *ngIf="users?.length">
+        <li *ngFor="let u of users" (click)="selectUser(u.id,u.name+' ('+u.phone+')')">{{u.name}} ({{u.phone}})</li>
+      </div>
+
+      <a style="font-size: 18px !important;" (click)="createUser = 1">Crear reserva para invitado</a>
+    </div>
+    <div class="space-info ion-padding" *ngIf="step == 2">
+
+      <!-- <h6 style="margin: 0; font-weight: bolder;">{{details.name}}</h6> -->
+
+      <p *ngIf="establishment.anticipation">
+        Puedes reservar hasta con {{establishment.anticipation}} días de antelación
+      </p>
+      <p *ngIf="!establishment.anticipation">
+      </p>
+
+      <h6 style="margin: 0; font-weight: bolder;">Horarios Disponibles</h6>
+
+      <br>
+
+      <ion-item>
+        <ion-label position="stacked" style="align-self: initial; font-size: 18px !important;">Seleccionar fecha</ion-label>
+        <ion-datetime displayFormat="DD-MM-YYYY" doneText="Ok" cancelText="Cancelar" [min]="minY" [max]="maxY" [(ngModel)]="date" (ionChange)="getHours()"></ion-datetime>
+        <!-- <ion-select>
+          <ion-select-option>Prueba</ion-select-option>
+        </ion-select> -->
+        
+      </ion-item>
+
+      <br>
+
+      <ion-item>
+        <ion-label position="stacked" style="align-self: initial; font-size: 18px !important;">Seleccionar horario de reserva</ion-label>
+        <ion-select interface="action-sheet" doneText="Ok" cancelText="Cancelar" [(ngModel)]="hour" (ionChange)="setValues()">
+          <ion-select-option *ngFor="let h of hours" [value]="h"> <p> - {{h.show}} </p></ion-select-option>
+        </ion-select>
+        
+      </ion-item>
+
+      <div>
+        <br>
+
+        <ion-item>
+          <ion-label position="stacked" style="align-self: initial; font-size: 18px !important;">Número de personas</ion-label>
+          <ion-input type="number" [(ngModel)]="px"></ion-input>
+        </ion-item>
+      </div>
+      
+      <div *ngIf="showDni">
+        <br>
+
+        <ion-item>
+          <ion-label position="stacked" style="align-self: initial; font-size: 18px !important;">Ingrese su DNI</ion-label>
+          <ion-input [(ngModel)]="dni"></ion-input>
+        </ion-item>
+
+        <small style="margin-top: 8px; display: block;"><i>Este dato se solicita para facilitar el rastreo y por exigencia de las autoridades sanitarias</i></small>
+      </div>
+
+      <br>
+
+      <ion-item>
+        <ion-label position="stacked" style="align-self: initial; font-size: 18px !important;">¿Cuándo quiere notificar al usuario?</ion-label>
+        
+        <ion-datetime [disabled]="!hour" doneText="Ok" cancelText="Cancelar" [(ngModel)]="notification" [min]="min" [max]="max" display-format="DD-MM-YYYY HH:mm"></ion-datetime>
+        
+      </ion-item>
+
+      <br>
+
+      <button class="je-button" [disabled]="!hour || !notification" (click)="reserve()">Reservar</button>
+      
+    </div>
+
+  </div>
+
+  <div style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; background-color: rgba(0, 0, 0, .3); z-index: 9999;" *ngIf="createUser">
+    
+    <div style="position: absolute; width: calc(100% - 16px); top: 0; bottom: 0; left: 0; right: 0; background: #fff; border: 1px solid #f1f1f1; border-radius: 8px; margin: auto; height: fit-content;">
+
+      <span style="position: absolute; right: 16px; top: 8px;" (click)="createUser = null">x</span>
+      
+
+      <form class="form" [formGroup]="validations_form" (ngSubmit)="registerUser(validations_form.value)" style="padding-top: 0; padding-bottom: 0;">
+
+        <h6 style="text-align: center; font-weight: bolder;">Reservar para invitado</h6>
+        
+        <ion-list>
+
+          <ion-item class="ion-no-padding">
+            <ion-label position="floating">Nombre</ion-label>
+            <ion-input formControlName="name" type="text" ></ion-input>
+
+            <!-- <span slot="end" *ngIf="name.length > 8"> -->
+              <!-- <ion-icon name="checkmark"></ion-icon> -->
+            <!-- </span> -->
+          </ion-item>
+            <div class="validation-errors">
+                    <ng-container *ngFor="let validation of validation_messages.name">
+                      <div class="error-message" *ngIf="validations_form.get('name').hasError(validation.type) && (validations_form.get('name').dirty || validations_form.get('name').touched)">
+                        {{ validation.message }}
+                      </div>
+                    </ng-container>
+                  </div>
+
+          <ion-item class="ion-no-padding">
+            <ion-label position="floating">Email</ion-label>
+            <ion-input formControlName="email" type="email" ></ion-input>
+
+          </ion-item>
+
+          <ion-item class="ion-no-padding">
+            <ion-label position="floating">Teléfono</ion-label>
+            <ion-input formControlName="phone" type="phone" ></ion-input>
+
+          </ion-item>
+            <div class="validation-errors">
+                    <ng-container *ngFor="let validation of validation_messages.phone">
+                      <div class="error-message" *ngIf="validations_form.get('phone').hasError(validation.type) && (validations_form.get('phone').dirty || validations_form.get('phone').touched)">
+                        {{ validation.message }}
+                      </div>
+                    </ng-container>
+                  </div>
+
+          <!-- <ion-label>
+            <label> <ion-checkbox id="local" style="position: relative; top: 3px;" (ionChange)="changeNewUser($event)"></ion-checkbox>
+
+            Crear nuevo usuario</label>
+          </ion-label> -->
+
+          <!-- <ion-item class="ion-no-padding">
+            <ion-label position="floating">Contraseña</ion-label>
+            <ion-input formControlName="password" [type]="show_password_0" ></ion-input>
+
+            <span slot="end" style="
+                position: absolute;
+                right: 0;
+                top: 24px;
+                font-size: 24px;
+                z-index: 9999;">
+              
+              <ion-icon name="eye" (click)="changeView(0)"></ion-icon>
+
+            </span>
+          </ion-item>
+            <div class="validation-errors">
+                    <ng-container *ngFor="let validation of validation_messages.password">
+                      <div class="error-message" *ngIf="validations_form.get('password').hasError(validation.type) && (validations_form.get('password').dirty || validations_form.get('password').touched)">
+                        {{ validation.message }}
+                      </div>
+                    </ng-container>
+                  </div> -->
+
+        </ion-list>
+
+        <button type="submit" class="je-button" [disabled]="!validations_form.valid">Continuar</button>
+
+      </form>
+
+    </div>
+  </div>
+
+
+
+</ion-content>

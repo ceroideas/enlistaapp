@@ -1,0 +1,144 @@
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-title>login</ion-title>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content>
+
+  <!-- <div *ngIf="!loaded">
+
+    <ion-skeleton-text animated style="width: 100%; height: 250px;"></ion-skeleton-text>
+    
+    <ion-skeleton-text animated style="width: 88%; height: 21px; margin-top: 16px; margin-bottom: 2px;"></ion-skeleton-text>
+    <ion-skeleton-text animated style="width: 70%; height: 17px;"></ion-skeleton-text>
+    <ion-skeleton-text animated style="width: 60%; height: 14px;"></ion-skeleton-text>
+
+    <div style="padding-top: 8px;">
+
+      <div style="padding: 0 16px;">
+
+        <span style="border-top: 2px solid silver; display: block;"></span>      
+
+      </div>
+      
+    </div>
+
+    <div style="padding: 0 32px;">
+      
+      <ion-skeleton-text animated style="width: 88%; height: 19px; margin-top: 16px; margin-bottom: 10px;"></ion-skeleton-text>
+
+      <ion-skeleton-text animated style="width: 100%; height: 150px;"></ion-skeleton-text>
+
+      <ion-skeleton-text animated style="width: 60%; height: 52px;"></ion-skeleton-text>
+
+      <ion-skeleton-text animated style="width: 88%; height: 19px; margin-top: 16px; margin-bottom: 10px;"></ion-skeleton-text>
+
+      <ion-skeleton-text animated style="width: 100%; height: 150px;"></ion-skeleton-text>
+
+      <ion-skeleton-text animated style="width: 60%; height: 52px;"></ion-skeleton-text>
+
+    </div>
+
+
+  </div> -->
+  <div *ngIf="loaded">
+
+    <ion-slides [options]="{slidesPerView:1,spaceBetween:0}" pager="true">
+      <ion-slide *ngIf="e.image">
+        <div class="top-kitchen ion-padding" [ngStyle]="{'background-image':'url('+api.baseUrl+'storage/'+(e.image | normalize)+')'}">    
+          <h4>
+            <ion-icon name="chevron-back" (click)="api.back()" class="back-button"></ion-icon>
+          </h4>
+        </div>
+      </ion-slide>
+
+      <ion-slide *ngIf="e.image_2">
+        <div class="top-kitchen ion-padding" [ngStyle]="{'background-image':'url('+api.baseUrl+'storage/'+(e.image_2 | normalize)+')'}">    
+          <h4>
+            <ion-icon name="chevron-back" (click)="api.back()" class="back-button"></ion-icon>
+          </h4>
+        </div>
+      </ion-slide>
+
+      <ion-slide *ngIf="e.image_3">
+        <div class="top-kitchen ion-padding" [ngStyle]="{'background-image':'url('+api.baseUrl+'storage/'+(e.image_3 | normalize)+')'}">    
+          <h4>
+            <ion-icon name="chevron-back" (click)="api.back()" class="back-button"></ion-icon>
+          </h4>
+        </div>
+      </ion-slide>
+
+      <ion-slide *ngIf="e.image_4">
+        <div class="top-kitchen ion-padding" [ngStyle]="{'background-image':'url('+api.baseUrl+'storage/'+(e.image_4 | normalize)+')'}">    
+          <h4>
+            <ion-icon name="chevron-back" (click)="api.back()" class="back-button"></ion-icon>
+          </h4>
+        </div>
+      </ion-slide>
+
+      <ion-slide *ngIf="e.image_5">
+        <div class="top-kitchen ion-padding" [ngStyle]="{'background-image':'url('+api.baseUrl+'storage/'+(e.image_5 | normalize)+')'}">    
+          <h4>
+            <ion-icon name="chevron-back" (click)="api.back()" class="back-button"></ion-icon>
+          </h4>
+        </div>
+      </ion-slide>
+    </ion-slides>
+  
+
+    <div class="kitchen-info">
+      <h6>{{e.name}}</h6>
+      <span style="color: gold">
+        <ion-icon [name]="'star' +( (e.stars > 0) ? '' : '-outline') "></ion-icon>
+        <ion-icon [name]="'star' +( (e.stars > 1) ? '' : '-outline') "></ion-icon>
+        <ion-icon [name]="'star' +( (e.stars > 2) ? '' : '-outline') "></ion-icon>
+        <ion-icon [name]="'star' +( (e.stars > 3) ? '' : '-outline') "></ion-icon>
+        <ion-icon [name]="'star' +( (e.stars > 4) ? '' : '-outline') "></ion-icon>
+
+        <small class="comments">{{e.valorations.length}} Opiniones</small>
+      </span>
+
+      <br>
+
+      <div>
+        <span *ngFor="let c of e.categories" class="category dots">{{c.category.name}}</span>
+      </div>
+      <span *ngIf="e.phone" (click)="call(e.phone)">
+        <ion-icon style="position: relative; top: 3px" name="call-outline"></ion-icon> <span class="category" style="font-weight: normal;"> {{e.phone}} </span> <br>
+      </span>
+      <ion-icon style="position: relative; top: 3px" name="locate-outline"></ion-icon> <span class="category" (click)="openMap(e)"> {{e.address}} </span>
+
+    </div>
+
+    <div style="padding-top: 8px;">
+
+      <div style="padding: 0 16px;">
+
+        <span style="border-top: 2px solid silver; display: block;"></span>      
+
+      </div>
+      
+    </div>
+
+    <div>
+      <div style="padding: 0 32px;">
+        <h5>Reservas Disponibles</h5>
+      </div>
+
+        <div
+        *ngFor="let s of e.spaces"
+        style="width: 100%; text-align: left; margin-bottom: 24px; padding: 0 32px;" (click)="addParam(null)" [routerLink]="'../../schedule/'+s.id">
+          <div class="rest-pic" [ngStyle]="{'background-image':'url('+api.baseUrl+'storage/'+(s.image | normalize)+')'}">
+            
+          </div>
+
+          <span class="rest-name">{{s.name}}</span>
+
+          <p>{{s.description}}</p>
+
+        </div>
+    </div>
+  </div>
+
+</ion-content>

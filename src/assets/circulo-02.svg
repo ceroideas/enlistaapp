@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="95px" height="83px" viewBox="0 0 95 83" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Group 3</title>
+    <g id="Vista-Cliente" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="13-Confirmación-lectura-Qr" transform="translate(-140.000000, -236.000000)" fill="#B42D66">
+            <g id="Group-3" transform="translate(140.000000, 236.000000)">
+                <path d="M58,83 C84.2335256,83 95,67.7335256 95,41.5 C95,15.2664744 66.2335256,0 40,0 C13.7664744,0 0,15.2664744 0,41.5 C0,67.7335256 31.7664744,83 58,83 Z" id="Ellipse-19" fill-opacity="0.798240822"></path>
+                <path d="M48,75 C66.2253967,75 81,60.2253967 81,42 C81,23.7746033 73.2253967,15 55,15 C36.7746033,15 15,23.7746033 15,42 C15,60.2253967 29.7746033,75 48,75 Z" id="Ellipse-20"></path>
+            </g>
+        </g>
+    </g>
+</svg>

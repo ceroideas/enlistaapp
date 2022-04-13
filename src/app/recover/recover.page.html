@@ -1,0 +1,122 @@
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-title>login</ion-title>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content>
+
+  <div class="top-login">
+
+    <div class="top-logo">
+      <img src="assets/logo-01.svg" alt="">
+    </div>
+    
+  </div>
+
+  <form class="form" *ngIf="step == 1" [formGroup]="validations_form" (ngSubmit)="sendCode(validations_form.value)">
+      
+    <ion-list>
+
+      <ion-item class="ion-no-padding">
+        <ion-label position="floating">Email</ion-label>
+        <ion-input formControlName="email" type="email"></ion-input>
+
+      </ion-item>
+        <div class="validation-errors">
+                <ng-container *ngFor="let validation of validation_messages.email">
+                  <div class="error-message" *ngIf="validations_form.get('email').hasError(validation.type) && (validations_form.get('email').dirty || validations_form.get('email').touched)">
+                    {{ validation.message }}
+                  </div>
+                </ng-container>
+              </div>
+
+    </ion-list>
+
+    <button type="submit" class="je-button" [disabled]="!validations_form.valid">Enviar código</button>
+
+  </form>
+
+  <form class="form" *ngIf="step == 2" [formGroup]="validations_form1" (ngSubmit)="checkCode(validations_form1.value)">
+      
+    <ion-list>
+
+      <ion-item class="ion-no-padding">
+        <ion-label position="floating">Código</ion-label>
+        <ion-input formControlName="code" type="text"></ion-input>
+
+      </ion-item>
+        <div class="validation-errors">
+                <ng-container *ngFor="let validation of validation_messages1.code">
+                  <div class="error-message" *ngIf="validations_form1.get('code').hasError(validation.type) && (validations_form1.get('code').dirty || validations_form1.get('code').touched)">
+                    {{ validation.message }}
+                  </div>
+                </ng-container>
+              </div>
+
+    </ion-list>
+
+    <button type="submit" class="je-button" [disabled]="!validations_form1.valid">Aceptar</button>
+
+  </form>
+
+
+  <!--  -->
+
+  <form class="form" *ngIf="step == 3" [formGroup]="validations_form2" (ngSubmit)="changePassword(validations_form2.value)">
+      
+    <ion-list>
+
+      <ion-item class="ion-no-padding">
+        <ion-label position="floating">Contraseña</ion-label>
+        <ion-input formControlName="password" [type]="show_password_0" ></ion-input>
+
+        <span slot="end" style="
+            position: absolute;
+            right: 0;
+            top: 24px;
+            font-size: 24px;
+            z-index: 9999;">
+          
+          <ion-icon name="eye" (click)="changeView(0)"></ion-icon>
+
+        </span>
+      </ion-item>
+        <div class="validation-errors">
+                <ng-container *ngFor="let validation of validation_messages2.password">
+                  <div class="error-message" *ngIf="validations_form2.get('password').hasError(validation.type) && (validations_form2.get('password').dirty || validations_form2.get('password').touched)">
+                    {{ validation.message }}
+                  </div>
+                </ng-container>
+              </div>
+
+      <ion-item class="ion-no-padding">
+        <ion-label position="floating">Repetir Contraseña</ion-label>
+        <ion-input formControlName="repeat_password" [type]="show_password_1" ></ion-input>
+
+        <span slot="end" style="
+            position: absolute;
+            right: 0;
+            top: 24px;
+            font-size: 24px;
+            z-index: 9999;">
+          
+          <ion-icon name="eye" (click)="changeView(1)"></ion-icon>
+
+        </span>
+      </ion-item>
+        <div class="validation-errors">
+                <ng-container *ngFor="let validation of validation_messages2.repeat_password">
+                  <div class="error-message" *ngIf="validations_form2.get('repeat_password').hasError(validation.type) && (validations_form2.get('repeat_password').dirty || validations_form2.get('repeat_password').touched)">
+                    {{ validation.message }}
+                  </div>
+                </ng-container>
+              </div>
+
+    </ion-list>
+
+    <button type="submit" class="je-button" [disabled]="!validations_form2.valid">Cambiar contraseña</button>
+
+  </form>
+
+</ion-content>

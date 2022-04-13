@@ -1,0 +1,270 @@
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-title>register</ion-title>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content>
+
+  <div class="top-login reg" style="background-image: url('assets/img/imagenes 23.jpg');">
+
+    <ion-icon name="menu-outline" (click)="api.showmenu()" class="menu-button cw"></ion-icon>
+
+    <div class="user-img" (click)="loadImage('avatar')" [ngStyle]="{'background-image':'url('+api.baseUrl+'storage/'+(validations_form.value.avatar | normalize)+')'}">
+      <!-- <img src="assets/logo-01.svg" alt=""> -->
+    </div>
+    
+  </div>
+
+  <form class="form" [formGroup]="validations_form" (ngSubmit)="registerUser(validations_form.value)">
+      
+    <ion-list>
+
+      <ion-item class="ion-no-padding">
+        <ion-label position="floating">Nombre</ion-label>
+        <ion-input formControlName="name" type="text" ></ion-input>
+
+        <!-- <span slot="end" *ngIf="name.length > 8"> -->
+          <!-- <ion-icon name="checkmark"></ion-icon> -->
+        <!-- </span> -->
+      </ion-item>
+        <div class="validation-errors">
+                <ng-container *ngFor="let validation of validation_messages.name">
+                  <div class="error-message" *ngIf="validations_form.get('name').hasError(validation.type) && (validations_form.get('name').dirty || validations_form.get('name').touched)">
+                    {{ validation.message }}
+                  </div>
+                </ng-container>
+              </div>
+
+      <ion-item class="ion-no-padding">
+        <ion-label position="floating">Email</ion-label>
+        <ion-input formControlName="email" type="email" ></ion-input>
+
+        <!-- <span slot="end" *ngIf="email.length > 8"> -->
+          <!-- <ion-icon name="checkmark"></ion-icon> -->
+        <!-- </span> -->
+      </ion-item>
+        <div class="validation-errors">
+                <ng-container *ngFor="let validation of validation_messages.email">
+                  <div class="error-message" *ngIf="validations_form.get('email').hasError(validation.type) && (validations_form.get('email').dirty || validations_form.get('email').touched)">
+                    {{ validation.message }}
+                  </div>
+                </ng-container>
+              </div>
+
+      <ion-item class="ion-no-padding">
+        <ion-label position="floating">Nombre del establecimiento</ion-label>
+        <ion-input formControlName="establishment" type="text" ></ion-input>
+
+        <!-- <span slot="end" *ngIf="establishment.length > 8"> -->
+          <!-- <ion-icon establishment="checkmark"></ion-icon> -->
+        <!-- </span> -->
+      </ion-item>
+        <div class="validation-errors">
+                <ng-container *ngFor="let validation of validation_messages.establishment">
+                  <div class="error-message" *ngIf="validations_form.get('establishment').hasError(validation.type) && (validations_form.get('establishment').dirty || validations_form.get('establishment').touched)">
+                    {{ validation.message }}
+                  </div>
+                </ng-container>
+              </div>
+
+
+
+
+      <ion-item class="ion-no-padding">
+        <ion-label position="floating">Categoría</ion-label>
+        <ion-select doneText="Ok" cancelText="Cancelar" formControlName="category_id" multiple>
+          <ion-select-option *ngFor="let c of categories" [value]="c.id">{{c.name}}</ion-select-option>
+        </ion-select>
+
+      </ion-item>
+        <div class="validation-errors">
+                <ng-container *ngFor="let validation of validation_messages.category_id">
+                  <div class="error-message" *ngIf="validations_form.get('category_id').hasError(validation.type) && (validations_form.get('category_id').dirty || validations_form.get('category_id').touched)">
+                    {{ validation.message }}
+                  </div>
+                </ng-container>
+              </div>
+
+      <ion-item class="ion-no-padding">
+        <ion-label position="floating">Auto aceptar reservas</ion-label>
+        <ion-select doneText="Ok" cancelText="Cancelar" formControlName="auto_accept">
+          <ion-select-option value="0">No</ion-select-option>
+          <ion-select-option value="1">Si</ion-select-option>
+        </ion-select>
+
+      </ion-item>
+
+      <ion-item class="ion-no-padding">
+        <ion-label position="floating">Descripción</ion-label>
+        <ion-textarea formControlName="description"></ion-textarea>
+
+      </ion-item>
+        <div class="validation-errors">
+                <ng-container *ngFor="let validation of validation_messages.description">
+                  <div class="error-message" *ngIf="validations_form.get('description').hasError(validation.type) && (validations_form.get('description').dirty || validations_form.get('description').touched)">
+                    {{ validation.message }}
+                  </div>
+                </ng-container>
+              </div>
+
+      <ion-item class="ion-no-padding">
+        <ion-label position="floating">Teléfono</ion-label>
+        <ion-input formControlName="phone" type="phone" ></ion-input>
+      </ion-item>
+        <div class="validation-errors">
+                <ng-container *ngFor="let validation of validation_messages.phone">
+                  <div class="error-message" *ngIf="validations_form.get('phone').hasError(validation.type) && (validations_form.get('phone').dirty || validations_form.get('phone').touched)">
+                    {{ validation.message }}
+                  </div>
+                </ng-container>
+              </div>
+
+      
+      <ion-item class="ion-no-padding">
+        <ion-label position="floating">Dirección</ion-label>
+        <ion-input formControlName="address" id="address" type="text" ></ion-input>
+
+        <!-- <span slot="end" *ngIf="establishment.length > 8"> -->
+          <!-- <ion-icon establishment="checkmark"></ion-icon> -->
+        <!-- </span> -->
+      </ion-item>
+        <div class="validation-errors">
+                <ng-container *ngFor="let validation of validation_messages.establishment">
+                  <div class="error-message" *ngIf="validations_form.get('establishment').hasError(validation.type) && (validations_form.get('establishment').dirty || validations_form.get('establishment').touched)">
+                    {{ validation.message }}
+                  </div>
+                </ng-container>
+              </div>
+
+      <div #map style="height: 400px; width: 100%;"></div>
+
+      <br>
+
+      <ion-item class="ion-no-padding" lines="none" style="--inner-padding-end:0 ">
+        <!-- <ion-label position="stacked">Imagen del establecimiento</ion-label> -->
+        <!-- <span slot="end" *ngIf="establishment.length > 8"> -->
+          <!-- <ion-icon establishment="checkmark"></ion-icon> -->
+        <!-- </span> -->
+
+        <ion-slides [options]="{slidesPerView:1.2,spaceBetween:20}">
+          <ion-slide>
+            <div style="display: flex;align-items: center;justify-content: space-evenly; width: 100%; position: relative; background-size: cover; background-position: center; border-radius: 8px; height: 140px; border: 1px solid silver;" (click)="loadImage('image')" [ngStyle]="{'background-image':'url('+api.baseUrl+'storage/'+(validations_form.value.image | normalize)+')'}">
+              <ion-icon name="image" style="color: silver; font-size: 62px;"></ion-icon>
+            </div>
+          </ion-slide>
+
+          <ion-slide>
+            <div style="display: flex;align-items: center;justify-content: space-evenly; width: 100%; position: relative; background-size: cover; background-position: center; border-radius: 8px; height: 140px; border: 1px solid silver;" (click)="loadImage('image_2')" [ngStyle]="{'background-image':'url('+api.baseUrl+'storage/'+(validations_form.value.image_2 | normalize)+')'}">
+              <ion-icon name="image" style="color: silver; font-size: 62px;"></ion-icon>
+            </div>
+          </ion-slide>
+
+          <ion-slide>
+            <div style="display: flex;align-items: center;justify-content: space-evenly; width: 100%; position: relative; background-size: cover; background-position: center; border-radius: 8px; height: 140px; border: 1px solid silver;" (click)="loadImage('image_3')" [ngStyle]="{'background-image':'url('+api.baseUrl+'storage/'+(validations_form.value.image_3 | normalize)+')'}">
+              <ion-icon name="image" style="color: silver; font-size: 62px;"></ion-icon>
+            </div>
+          </ion-slide>
+
+          <ion-slide>
+            <div style="display: flex;align-items: center;justify-content: space-evenly; width: 100%; position: relative; background-size: cover; background-position: center; border-radius: 8px; height: 140px; border: 1px solid silver;" (click)="loadImage('image_4')" [ngStyle]="{'background-image':'url('+api.baseUrl+'storage/'+(validations_form.value.image_4 | normalize)+')'}">
+              <ion-icon name="image" style="color: silver; font-size: 62px;"></ion-icon>
+            </div>
+          </ion-slide>
+
+          <ion-slide>
+            <div style="display: flex;align-items: center;justify-content: space-evenly; width: 100%; position: relative; background-size: cover; background-position: center; border-radius: 8px; height: 140px; border: 1px solid silver;" (click)="loadImage('image_5')" [ngStyle]="{'background-image':'url('+api.baseUrl+'storage/'+(validations_form.value.image_5 | normalize)+')'}">
+              <ion-icon name="image" style="color: silver; font-size: 62px;"></ion-icon>
+            </div>
+          </ion-slide>
+        </ion-slides>
+      </ion-item>
+
+
+
+      <ion-item class="ion-no-padding">
+        <ion-label position="floating">Contraseña</ion-label>
+        <ion-input formControlName="password" [type]="show_password_0" ></ion-input>
+
+        <span slot="end" style="
+            position: absolute;
+            right: 0;
+            top: 24px;
+            font-size: 24px;
+            z-index: 9999;">
+          
+          <ion-icon name="eye" (click)="changeView(0)"></ion-icon>
+
+          <!-- <ion-icon *ngIf="password.length > 4" name="checkmark"></ion-icon> -->
+        </span>
+      </ion-item>
+        <div class="validation-errors">
+                <ng-container *ngFor="let validation of validation_messages.password">
+                  <div class="error-message" *ngIf="validations_form.get('password').hasError(validation.type) && (validations_form.get('password').dirty || validations_form.get('password').touched)">
+                    {{ validation.message }}
+                  </div>
+                </ng-container>
+              </div>
+
+      <!-- <ion-item>
+      </ion-item> -->
+    </ion-list>
+      <ion-item class="ion-no-padding">
+        <ion-label position="floating">Repetir Contraseña</ion-label>
+        <ion-input formControlName="repeat_password" [type]="show_password_1" ></ion-input>
+
+        <span slot="end" style="
+            position: absolute;
+            right: 0;
+            top: 24px;
+            font-size: 24px;
+            z-index: 9999;">
+          
+          <ion-icon name="eye" (click)="changeView(1)"></ion-icon>
+
+          <!-- <ion-icon *ngIf="password.length > 4" name="checkmark"></ion-icon> -->
+        </span>
+      </ion-item>
+        <div class="validation-errors">
+                <ng-container *ngFor="let validation of validation_messages.repeat_password">
+                  <div class="error-message" *ngIf="validations_form.get('repeat_password').hasError(validation.type) && (validations_form.get('repeat_password').dirty || validations_form.get('repeat_password').touched)">
+                    {{ validation.message }}
+                  </div>
+                </ng-container>
+              </div>
+
+    <button type="submit" class="je-button" [disabled]="!validations_form.valid">Guardar Información</button>
+
+    <!-- <span class="already">No tengo una cuenta, <span [routerLink]="['/register']" routerDirection="root">Registrar</span></span> -->
+
+    <!-- <ion-row>
+      <ion-col size="5" style="position: relative;">
+        <span class="line" style="right: 0"></span>
+      </ion-col>
+      <ion-col size="2" style="text-align: center;">
+        <b>O</b>
+      </ion-col>
+      <ion-col size="5" style="position: relative;">
+        <span class="line" style="left: 0"></span>
+      </ion-col>
+    </ion-row>
+
+    <br>
+
+    <ion-row>
+      <ion-col size="3">
+      </ion-col>
+      <ion-col size="3">
+        <img src="assets/fb.svg" alt="" class="center-block">
+      </ion-col>
+      <ion-col size="3">
+        <img src="assets/google.svg" alt="" class="center-block">
+      </ion-col>
+      <ion-col size="3">
+        <img src="assets/Twitter.svg" alt="" class="center-block">
+      </ion-col>
+    </ion-row> -->
+
+  </form>
+
+</ion-content>

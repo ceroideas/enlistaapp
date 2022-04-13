@@ -1,15 +1,99 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './services/auth-guard.service';
+
+const role:any = localStorage.getItem('role');
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'folder/Inbox',
+    redirectTo: role == 2 ? 'home-c' : 'home-l',
     pathMatch: 'full'
   },
+  // {
+  //   path: 'folder/:id',
+  //   loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
+  // },
   {
-    path: 'folder/:id',
-    loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
+    path: 'login',
+    loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
+  },
+  {
+    path: 'registration',
+    loadChildren: () => import('./registration/registration.module').then( m => m.RegistrationPageModule)
+  },
+  {
+    path: 'start',
+    loadChildren: () => import('./start/start.module').then( m => m.StartPageModule)
+  },
+  {
+    path: 'home-l',
+    loadChildren: () => import('./local/home/home.module').then( m => m.HomePageModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'home-c',
+    loadChildren: () => import('./client/home/home.module').then( m => m.HomePageModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'reserves',
+    loadChildren: () => import('./client/reserves/reserves.module').then( m => m.ReservesPageModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'profile',
+    loadChildren: () => import('./client/profile/profile.module').then( m => m.ProfilePageModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'contact',
+    loadChildren: () => import('./contact/contact.module').then( m => m.ContactPageModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'qr-ok',
+    loadChildren: () => import('./client/qr-ok/qr-ok.module').then( m => m.QrOkPageModule)
+  },
+  {
+    path: 'qr-c',
+    loadChildren: () => import('./client/qr-c/qr-c.module').then( m => m.QrCPageModule)
+  },
+  {
+    path: 'register2',
+    loadChildren: () => import('./register2/register2.module').then( m => m.Register2PageModule)
+  },
+  {
+    path: 'spaces',
+    loadChildren: () => import('./local/spaces/spaces.module').then( m => m.SpacesPageModule)
+  },
+  {
+    path: 'reserves-l',
+    loadChildren: () => import('./local/reserves-l/reserves-l.module').then( m => m.ReservesLPageModule)
+  },
+  {
+    path: 'customers',
+    loadChildren: () => import('./local/customers/customers.module').then( m => m.CustomersPageModule)
+  },
+  {
+    path: 'policy',
+    loadChildren: () => import('./policy/policy.module').then( m => m.PolicyPageModule)
+  },
+  {
+    path: 'support',
+    loadChildren: () => import('./support/support.module').then( m => m.SupportPageModule)
+  },
+  {
+    path: 'qr',
+    loadChildren: () => import('./qr/qr.module').then( m => m.QrPageModule)
+  },
+  {
+    path: 'view',
+    loadChildren: () => import('./view/view.module').then( m => m.ViewPageModule)
+  },
+  {
+    path: 'recover',
+    loadChildren: () => import('./recover/recover.module').then( m => m.RecoverPageModule)
   }
 ];
 
@@ -17,6 +101,11 @@ const routes: Routes = [
   imports: [
     RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
   ],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [AuthGuard]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule {
+  constructor() {
+
+  }
+}

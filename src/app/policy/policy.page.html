@@ -1,0 +1,33 @@
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-title>login</ion-title>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content>
+
+  <div class="top-login" style="background-image: url('assets/img/imagenes 5.jpg');">
+
+    <ion-icon name="menu-outline" (click)="api.showmenu()" class="menu-button cw"></ion-icon>
+
+    <div class="top-logo">
+      <img src="assets/logo-01.svg" alt="">
+    </div>
+    
+  </div>
+
+  <br>
+  <br>
+
+  <div style="padding: 0 16px;">
+
+    <br>
+    
+    <p *ngIf="policy" style="margin-bottom: 0;" [innerHtml]="policy">
+      <!-- <iframe [src]="policy" frameborder="0" style="width: 100%; height: calc(100vh - 358px)"></iframe> -->
+    </p>
+  </div>
+
+
+
+</ion-content>

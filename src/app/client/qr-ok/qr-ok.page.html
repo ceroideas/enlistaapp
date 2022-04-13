@@ -1,0 +1,32 @@
+<ion-content class="ion-padding" style="text-align: center;">
+
+  <div style="height: 100px; padding: 25px 0; position: relative;">
+    
+    <div class="circle-1">
+      <div class="inner-circle">
+        <ion-icon name="checkmark"></ion-icon>
+      </div>
+    </div>
+
+
+  </div>
+
+  <h3>
+
+    ¡Todo listo! <br>
+
+  </h3>
+
+    <small>Tu reserva ha sido canjeada, <br> ya puedes sentarte en tu mesa</small>
+
+    <br>
+
+    <h4>{{reservation.establishment.name}}</h4>
+
+    <small>{{reservation.schedule.px}} PX &bull; Mesa {{reservation.schedule.table}}</small>
+
+    <span style="display: block; margin: 8px; color: #ffc758">{{reservation.hour_from}} a {{reservation.hour_to}} &bull; {{reservation.schedule.price}}</span>
+
+    <button style="box-shadow: none; margin: 0;" class="je-button" (click)="closeModal()">Cerrar</button>
+
+</ion-content>

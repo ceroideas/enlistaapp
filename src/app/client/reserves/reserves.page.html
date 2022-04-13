@@ -1,0 +1,195 @@
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-title>login</ion-title>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content>
+
+  <div class="top-login" style="background-image: url('assets/img/imagenes 18.jpg');">
+
+    <ion-icon name="menu-outline" (click)="api.showmenu()" class="menu-button cw"></ion-icon>
+
+    <div class="top-logo">
+      <img src="assets/logo-01.svg" alt="">
+    </div>
+    
+  </div>
+
+  <div class="ion-padding">
+
+    <br>
+    <br>
+    
+    <ion-searchbar [(ngModel)]="query" placeholder="Buscar"></ion-searchbar>
+
+    <br>
+
+    <div style="margin-bottom: 24px;">
+
+      <div *ngIf="!reserves.length && loaded">
+        <h5 style="text-align: center; color: silver">No tienes reservas</h5>
+      </div>
+
+
+      <div class="fechas" *ngFor="let r of reserves">
+        <h5 *ngIf="(r.data | search:query:'reservation').length" style="text-align: right; margin-top: 15px;">{{r.date | date:'dd-MM-Y'}}</h5>
+
+        <div class="reservas" *ngFor="let s of r.data | search:query:'reservation'">
+          
+          <h5>{{s.reservation?.name}} <small>({{s.establishment?.name}})</small></h5>
+          <ion-card class="ion-no-margin" style="border-radius: 12px;">
+            <ion-card-content style="padding: 12px;">
+
+              <!-- <span *ngIf="s.user">
+                {{s.user.name}} (7 reservas hasta la fecha) <br>
+              </span> -->
+              <span style="font-size: 12px;">
+                Código de Reserva: <b>{{s.code}}</b>
+              </span>
+
+              <ion-row>
+                <ion-col style="text-align: left; font-size: 12px;" class="ion-no-padding" size="5">
+
+                  <br>
+                  
+                  <span style="display: block; margin-bottom: 16px;">{{s.px}} personas</span>
+                  <span>A las {{s.hour_from}} </span>
+                  <!-- <span>A las {{s.hour}} a {{s.hour_to}} </span> -->
+
+                </ion-col>
+                <ion-col style="text-align: center; font-size: 12px;" size="4">
+
+                  <br>
+
+                  <span style="display: block; margin-bottom: 8px;">&nbsp;</span>
+                  <b style="font-size: 16px; color: gold;">{{s.schedule.price}}</b>
+
+                </ion-col>
+                <ion-col size="3" style="text-align: right;" *ngIf="s.status">
+                  <img [ngClass]="{'opaque': (s.status == 2 || s.status == 0)}" (click)="openQr(s)" src="assets/0.png" alt="">
+                </ion-col>
+                <ion-col size="3" style="text-align: right;" *ngIf="!s.status">
+                  <img class="opaque" src="assets/0.png" alt="">
+                </ion-col>
+              </ion-row>
+
+              <button *ngIf="s.status == 1" class="btn-reserve" (click)="anular(s.id)">Anular reserva</button>
+              <span *ngIf="s.status == 0" class="canceled-reserve">La reserva fué anulada</span>
+              <span *ngIf="s.status == null" class="canceled-reserve">Pendiente de confirmación</span>
+            </ion-card-content>
+          </ion-card>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- <h6 style="text-align: right;"><b>01/08/2021</b></h6>
+
+    <div>
+      <h6>Nombre reserva</h6>
+
+      <ion-card style="margin: 0;">
+        <ion-card-content style="padding: 12px;">
+          <h6>Código de Reserva: <b>123456</b></h6>
+
+          <ion-row>
+            
+            <ion-col class="ion-no-padding" size="5" style="color: #aaa; font-size: 12px;">
+              <br>
+              10 PX <br> <br>
+
+              21:30 a 23:00
+            </ion-col>
+
+            <ion-col class="ion-no-padding" size="4" style="text-align: center; color: #aaa; font-size: 12px;">
+              <br>
+              Mesa 12 <br> <br>
+
+              <b style="color: gold; font-size: 16px;">24€</b>
+            </ion-col>
+
+            <ion-col size="3">
+              <img (click)="openQr()" src="assets/0.png" alt="">
+            </ion-col>
+
+          </ion-row>
+
+          <button style="background-color: crimson; color: #fff; border-radius: 20px; padding: 6px 12px;">Anular reserva</button>
+
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <h6 style="text-align: right;"><b>20/07/2021</b></h6>
+
+    <div>
+      <h6>Nombre reserva (Efectuado)</h6>
+
+      <ion-card style="margin: 0;">
+        <ion-card-content style="padding: 12px;">
+          <h6>Código de Reserva: <b>123456</b></h6>
+
+          <ion-row>
+            
+            <ion-col class="ion-no-padding" size="5" style="color: #aaa; font-size: 12px;">
+              <br>
+              10 PX <br> <br>
+
+              21:30 a 23:00
+            </ion-col>
+
+            <ion-col class="ion-no-padding" size="4" style="text-align: center; color: #aaa; font-size: 12px;">
+              <br>
+              Mesa 12 <br> <br>
+
+              <b style="color: gold; font-size: 16px;">24€</b>
+            </ion-col>
+
+            <ion-col size="3">
+              <img style="opacity: .3;" src="assets/0.png" alt="">
+            </ion-col>
+
+          </ion-row>
+
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <div>
+      <h6>Nombre reserva (Cancelada)</h6>
+
+      <ion-card style="margin: 0;">
+        <ion-card-content style="padding: 12px;">
+          <h6>Código de Reserva: <b>123456</b></h6>
+
+          <ion-row>
+            
+            <ion-col class="ion-no-padding" size="5" style="color: #aaa; font-size: 12px;">
+              <br>
+              10 PX <br> <br>
+
+              21:30 a 23:00
+            </ion-col>
+
+            <ion-col class="ion-no-padding" size="4" style="text-align: center; color: #aaa; font-size: 12px;">
+              <br>
+              Mesa 12 <br> <br>
+
+              <b style="color: gold; font-size: 16px;">24€</b>
+            </ion-col>
+
+            <ion-col size="3">
+              <img style="opacity: .3;" src="assets/0.png" alt="">
+            </ion-col>
+
+          </ion-row>
+
+        </ion-card-content>
+      </ion-card>
+    </div> -->
+
+  </div>
+
+
+</ion-content>

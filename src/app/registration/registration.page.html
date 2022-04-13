@@ -1,0 +1,158 @@
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-title>register</ion-title>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content>
+
+  <div class="top-login reg">
+
+    <ion-icon name="chevron-back" [routerLink]="['/login']" routerDirection="root" class="back-button bb"></ion-icon>
+
+    <div class="top-logo">
+      <img src="assets/logo-01.svg" alt="">
+    </div>
+    
+  </div>
+
+  <form class="form" [formGroup]="validations_form" (ngSubmit)="registerUser(validations_form.value)">
+      
+    <ion-list>
+
+      <ion-item class="ion-no-padding">
+        <ion-label position="floating">Nombre</ion-label>
+        <ion-input formControlName="name" type="text" ></ion-input>
+
+        <!-- <span slot="end" *ngIf="name.length > 8"> -->
+          <!-- <ion-icon name="checkmark"></ion-icon> -->
+        <!-- </span> -->
+      </ion-item>
+        <div class="validation-errors">
+                <ng-container *ngFor="let validation of validation_messages.name">
+                  <div class="error-message" *ngIf="validations_form.get('name').hasError(validation.type) && (validations_form.get('name').dirty || validations_form.get('name').touched)">
+                    {{ validation.message }}
+                  </div>
+                </ng-container>
+              </div>
+
+      <ion-item class="ion-no-padding">
+        <ion-label position="floating">Email</ion-label>
+        <ion-input formControlName="email" type="email" ></ion-input>
+
+        <!-- <span slot="end" *ngIf="email.length > 8"> -->
+          <!-- <ion-icon name="checkmark"></ion-icon> -->
+        <!-- </span> -->
+      </ion-item>
+
+      <ion-item class="ion-no-padding">
+        <ion-label position="floating">Teléfono</ion-label>
+        <ion-input formControlName="phone" type="phone" ></ion-input>
+
+        <!-- <span slot="end" *ngIf="phone.length > 8"> -->
+          <!-- <ion-icon name="checkmark"></ion-icon> -->
+        <!-- </span> -->
+      </ion-item>
+        <div class="validation-errors">
+                <ng-container *ngFor="let validation of validation_messages.phone">
+                  <div class="error-message" *ngIf="validations_form.get('phone').hasError(validation.type) && (validations_form.get('phone').dirty || validations_form.get('phone').touched)">
+                    {{ validation.message }}
+                  </div>
+                </ng-container>
+              </div>
+
+      <ion-item class="ion-no-padding">
+        <ion-label position="floating">Contraseña</ion-label>
+        <ion-input formControlName="password" [type]="show_password_0" ></ion-input>
+
+        <span slot="end" style="
+            position: absolute;
+            right: 0;
+            top: 24px;
+            font-size: 24px;
+            z-index: 9999;">
+          
+          <ion-icon name="eye" (click)="changeView(0)"></ion-icon>
+
+          <!-- <ion-icon *ngIf="password.length > 4" name="checkmark"></ion-icon> -->
+        </span>
+      </ion-item>
+        <div class="validation-errors">
+                <ng-container *ngFor="let validation of validation_messages.password">
+                  <div class="error-message" *ngIf="validations_form.get('password').hasError(validation.type) && (validations_form.get('password').dirty || validations_form.get('password').touched)">
+                    {{ validation.message }}
+                  </div>
+                </ng-container>
+              </div>
+
+      <!-- <ion-item>
+      </ion-item> -->
+    </ion-list>
+      <!-- <ion-label>
+        <ion-checkbox id="local" style="position: relative; top: 3px;" [(ngModel)]="local"></ion-checkbox>
+
+        <label (click)="changeLocal()"> Soy un local (Provisional)</label>
+      </ion-label> -->
+
+      <p style="color: #ccc; font-size: 12px; text-align: justify; line-height: 1.6">
+        Clickando en regístrate estás aceptando nuestros términos y condiciones y declaras haber leído nuestra política de datos. Policy.
+      </p>
+
+    <button type="submit" class="je-button" [disabled]="!validations_form.valid">Regístrate</button>
+
+    <!-- <span class="already">No tengo una cuenta, <span [routerLink]="['/register']" routerDirection="root">Registrar</span></span> -->
+
+    <ion-row>
+      <ion-col size="5" style="position: relative;">
+        <span class="line" style="right: 0"></span>
+      </ion-col>
+      <ion-col size="2" style="text-align: center;">
+        <b>O</b>
+      </ion-col>
+      <ion-col size="5" style="position: relative;">
+        <span class="line" style="left: 0"></span>
+      </ion-col>
+    </ion-row>
+
+    <br>
+
+    <ion-row *ngIf="api.platform.is('ios')">
+      <ion-col size="4">
+      <img src="assets/apple.png" alt="" class="center-block apple" (click)="api.loginApple()">
+    </ion-col>
+    <!-- <ion-col size="3">
+    </ion-col> -->
+    <ion-col size="4">
+      <img src="assets/fb.svg" alt="" class="center-block" (click)="api.loginFacebook()">
+    </ion-col>
+    <ion-col size="4">
+      <img src="assets/google.svg" alt="" class="center-block" (click)="api.loginGoogle()">
+    </ion-col>
+      <!-- <ion-col size="3">
+        <img src="assets/Twitter.svg" alt="" class="center-block">
+      </ion-col> -->
+    </ion-row>
+
+    <ion-row *ngIf="!api.platform.is('ios')">
+    <ion-col size="3">
+    </ion-col>
+    <ion-col size="3">
+      <img src="assets/fb.svg" alt="" class="center-block" (click)="api.loginFacebook()">
+    </ion-col>
+    <ion-col size="3">
+      <img src="assets/google.svg" alt="" class="center-block" (click)="api.loginGoogle()">
+    </ion-col>
+      <!-- <ion-col size="3">
+        <img src="assets/Twitter.svg" alt="" class="center-block">
+      </ion-col> -->
+    </ion-row>
+
+    <br>
+
+    <p style="color: #ccc; font-size: 14px; line-height: 1.6">
+      ¿Ya tienes cuenta? <b [routerLink]="['/login']" routerDirection="root">Accede</b>
+    </p>
+
+  </form>
+
+</ion-content>

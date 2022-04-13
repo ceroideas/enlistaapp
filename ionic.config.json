@@ -1,5 +1,7 @@
 {
   "name": "enlista",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

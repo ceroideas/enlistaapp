@@ -1,0 +1,72 @@
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-title>start</ion-title>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content class="ion-padding center-block">
+
+  <img src="assets/logo-03.svg" alt="" class="mt-1">
+
+  <div class="mw-350">
+    
+    <img src="assets/img/imagenes 21.png" alt="" class="main-img">
+
+  </div>
+
+
+  <button [routerLink]="['/registration']" routerDirection="root" class="je-button">Regístrate</button>
+
+  <div style="text-align: center; margin: 35px auto; color: silver">
+    ¿Eres un Bar? <span style="color: #333" [routerLink]="['/register2']" routerDirection="root">Regístrate</span>
+  </div>
+
+
+  <!-- <button [routerLink]="['/login']" routerDirection="root" class="je-button">Accede</button> -->
+  <button (click)="addGuestUser()" class="je-button">Accede</button>
+
+  <ion-row>
+    <ion-col size="5" style="position: relative;">
+      <span class="line" style="right: 0"></span>
+    </ion-col>
+    <ion-col size="2" style="text-align: center;">
+      <b>O</b>
+    </ion-col>
+    <ion-col size="5" style="position: relative;">
+      <span class="line" style="left: 0"></span>
+    </ion-col>
+  </ion-row>
+
+  <br>
+
+  <ion-row *ngIf="api.platform.is('ios')">
+      <ion-col size="4">
+      <img src="assets/apple.png" alt="" class="center-block apple" (click)="api.loginApple()">
+    </ion-col>
+    <!-- <ion-col size="3">
+    </ion-col> -->
+    <ion-col size="4">
+      <img src="assets/fb.svg" alt="" class="center-block" (click)="api.loginFacebook()">
+    </ion-col>
+    <ion-col size="4">
+      <img src="assets/google.svg" alt="" class="center-block" (click)="api.loginGoogle()">
+    </ion-col>
+      <!-- <ion-col size="3">
+        <img src="assets/Twitter.svg" alt="" class="center-block">
+      </ion-col> -->
+    </ion-row>
+
+    <ion-row *ngIf="!api.platform.is('ios')">
+    <ion-col size="3">
+    </ion-col>
+    <ion-col size="3">
+      <img src="assets/fb.svg" alt="" class="center-block" (click)="api.loginFacebook()">
+    </ion-col>
+    <ion-col size="3">
+      <img src="assets/google.svg" alt="" class="center-block" (click)="api.loginGoogle()">
+    </ion-col>
+      <!-- <ion-col size="3">
+        <img src="assets/Twitter.svg" alt="" class="center-block">
+      </ion-col> -->
+    </ion-row>
+</ion-content>

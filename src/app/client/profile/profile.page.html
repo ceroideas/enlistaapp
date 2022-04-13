@@ -1,0 +1,120 @@
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-title>register</ion-title>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content>
+
+  <div class="top-login reg" style="background-image: url('assets/img/imagenes 23.jpg');">
+
+    <ion-icon name="menu-outline" (click)="api.showmenu()" class="menu-button cw"></ion-icon>
+
+    <div class="user-img" (click)="loadImage()" [ngStyle]="{'background-image':'url('+api.baseUrl+'storage/'+(validations_form.value.avatar | normalize)+')'}">
+      <!-- <img src="assets/logo-01.svg" alt=""> -->
+    </div>
+    
+  </div>
+
+  <form class="form" [formGroup]="validations_form" (ngSubmit)="registerUser(validations_form.value)">
+      
+    <ion-list>
+
+      <ion-item class="ion-no-padding">
+        <ion-label position="floating">Nombre</ion-label>
+        <ion-input formControlName="name" type="text" ></ion-input>
+
+        <!-- <span slot="end" *ngIf="name.length > 8"> -->
+          <!-- <ion-icon name="checkmark"></ion-icon> -->
+        <!-- </span> -->
+      </ion-item>
+        <div class="validation-errors">
+                <ng-container *ngFor="let validation of validation_messages.name">
+                  <div class="error-message" *ngIf="validations_form.get('name').hasError(validation.type) && (validations_form.get('name').dirty || validations_form.get('name').touched)">
+                    {{ validation.message }}
+                  </div>
+                </ng-container>
+              </div>
+
+      <ion-item class="ion-no-padding">
+        <ion-label position="floating">Email</ion-label>
+        <ion-input formControlName="email" type="email" ></ion-input>
+
+        <!-- <span slot="end" *ngIf="email.length > 8"> -->
+          <!-- <ion-icon name="checkmark"></ion-icon> -->
+        <!-- </span> -->
+      </ion-item>
+        <div class="validation-errors">
+                <ng-container *ngFor="let validation of validation_messages.email">
+                  <div class="error-message" *ngIf="validations_form.get('email').hasError(validation.type) && (validations_form.get('email').dirty || validations_form.get('email').touched)">
+                    {{ validation.message }}
+                  </div>
+                </ng-container>
+              </div>
+
+      <ion-item class="ion-no-padding">
+        <ion-label position="floating">Contraseña</ion-label>
+        <ion-input formControlName="password" [type]="show_password_0" ></ion-input>
+
+        <span slot="end" style="
+            position: absolute;
+            right: 0;
+            top: 24px;
+            font-size: 24px;
+            z-index: 9999;">
+          
+          <ion-icon name="eye" (click)="changeView(0)"></ion-icon>
+
+          <!-- <ion-icon *ngIf="password.length > 4" name="checkmark"></ion-icon> -->
+        </span>
+      </ion-item>
+        <div class="validation-errors">
+                <ng-container *ngFor="let validation of validation_messages.password">
+                  <div class="error-message" *ngIf="validations_form.get('password').hasError(validation.type) && (validations_form.get('password').dirty || validations_form.get('password').touched)">
+                    {{ validation.message }}
+                  </div>
+                </ng-container>
+              </div>
+
+      <ion-item class="ion-no-padding">
+        <ion-label position="floating">Repetir Contraseña</ion-label>
+        <ion-input formControlName="repeat_password" [type]="show_password_1" ></ion-input>
+
+        <span slot="end" style="
+            position: absolute;
+            right: 0;
+            top: 24px;
+            font-size: 24px;
+            z-index: 9999;">
+          
+          <ion-icon name="eye" (click)="changeView(1)"></ion-icon>
+
+          <!-- <ion-icon *ngIf="password.length > 4" name="checkmark"></ion-icon> -->
+        </span>
+      </ion-item>
+        <div class="validation-errors">
+                <ng-container *ngFor="let validation of validation_messages.repeat_password">
+                  <div class="error-message" *ngIf="validations_form.get('repeat_password').hasError(validation.type) && (validations_form.get('repeat_password').dirty || validations_form.get('repeat_password').touched)">
+                    {{ validation.message }}
+                  </div>
+                </ng-container>
+              </div>
+
+      <!-- <ion-item>
+      </ion-item> -->
+    </ion-list>
+      <!-- <ion-label>
+        <ion-checkbox id="local" style="position: relative; top: 3px;" [(ngModel)]="local"></ion-checkbox>
+
+        <label (click)="changeLocal()"> Soy un local (Provisional)</label>
+      </ion-label> -->
+
+      <!-- <p style="color: #ccc; font-size: 12px; text-align: justify; line-height: 1.6">
+        Clickando en regístrate estás aceptando nuestros términos y condiciones y declaras haber leído nuestra política de datos. Policy.
+      </p> -->
+
+    <button type="submit" class="je-button" [disabled]="!validations_form.valid">Guardar</button>
+
+  </form>
+
+</ion-content>

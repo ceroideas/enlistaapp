@@ -1,0 +1,17 @@
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-title></ion-title>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content id="fondo">
+
+  <ion-icon name="close-circle-outline" (click)="nav.pop()" style="position: absolute; color: #fff; font-size: 24px; top: 32px; left: 32px;"></ion-icon>
+
+  <img *ngIf="scanner" src="assets/scanner.png" alt="">
+
+  <span class="text-semitrans" *ngIf="semitrans">
+    Pida al cliente mostrar su código QR. La lectura durará menos de 1 segundo.
+  </span>
+
+</ion-content>

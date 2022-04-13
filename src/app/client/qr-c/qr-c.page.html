@@ -1,0 +1,32 @@
+<ion-content class="ion-padding" style="text-align: center;">
+
+  <!-- <div style="height: 100px; padding: 25px 0; position: relative;"> -->
+    
+    <!-- <div class="circle-1">
+      <div class="inner-circle">
+        <ion-icon name="checkmark"></ion-icon>
+      </div>
+    </div> -->
+
+
+  <!-- </div> -->
+    <!-- <img style="width: 61%;" src="assets/0.png" alt=""> -->
+
+    <qrcode [qrdata]="data" [width]="165" [errorCorrectionLevel]="'M'"></qrcode>
+
+  <h3>
+
+    ¡Tu Reserva! <br>
+
+    <span style="font-size: 16px;">Código de Reserva: <b>{{reservation.code}}</b></span>
+
+  </h3>
+
+    <small>Muestra el QR de tu reserva <br> a un responsable del establecimiento</small>
+
+    <br>
+    <br>
+
+    <button style="box-shadow: none; margin: 0;" class="je-button" (click)="goQROk()">Cerrar</button>
+
+</ion-content>

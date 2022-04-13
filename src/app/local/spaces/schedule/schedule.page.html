@@ -1,0 +1,135 @@
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-title>login</ion-title>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content>
+
+  <div class="top-login" style="background-image: url('assets/img/imagenes 7.jpg');">
+
+    <ion-icon name="chevron-back" (click)="api.back()" class="back-button bb"></ion-icon>
+
+    <ion-icon name="menu-outline" (click)="api.showmenu()" class="menu-button cw"></ion-icon>
+
+    <div class="top-logo">
+      <img src="assets/logo-01.svg" alt="">
+    </div>
+    
+  </div>
+
+  <br>
+  <br>
+
+  <div style="padding: 0 16px;">
+
+    <form class="form" [formGroup]="validations_form" (ngSubmit)="registerSchedule(validations_form.value)">
+      
+      <ion-list>
+
+        <ion-item class="ion-no-padding">
+          <ion-label position="floating">Día</ion-label>
+          <ion-select doneText="Ok" cancelText="Cancelar" formControlName="date">
+            <ion-select-option value="1">Lunes</ion-select-option>
+            <ion-select-option value="2">Martes</ion-select-option>
+            <ion-select-option value="3">Miércoles</ion-select-option>
+            <ion-select-option value="4">Jueves</ion-select-option>
+            <ion-select-option value="5">Viernes</ion-select-option>
+            <ion-select-option value="6">Sábado</ion-select-option>
+            <ion-select-option value="0">Domingo</ion-select-option>
+          </ion-select>
+          <!-- <ion-datetime doneText="Ok" cancelText="Cancelar" formControlName="date" displayFormat="DD-MM-YYYY"></ion-datetime> -->
+
+        </ion-item>
+          <div class="validation-errors">
+                  <ng-container *ngFor="let validation of validation_messages.date">
+                    <div class="error-message" *ngIf="validations_form.get('date').hasError(validation.type) && (validations_form.get('date').dirty || validations_form.get('date').touched)">
+                      {{ validation.message }}
+                    </div>
+                  </ng-container>
+                </div>
+
+        <ion-item class="ion-no-padding">
+          <ion-label position="floating">Desde</ion-label>
+          <ion-datetime doneText="Ok" cancelText="Cancelar" formControlName="hour_from" displayFormat="HH:mm"></ion-datetime>
+
+        </ion-item>
+          <div class="validation-errors">
+                  <ng-container *ngFor="let validation of validation_messages.hour_from">
+                    <div class="error-message" *ngIf="validations_form.get('hour_from').hasError(validation.type) && (validations_form.get('hour_from').dirty || validations_form.get('hour_from').touched)">
+                      {{ validation.message }}
+                    </div>
+                  </ng-container>
+                </div>
+
+        <ion-item class="ion-no-padding">
+          <ion-label position="floating">Hasta</ion-label>
+          <ion-datetime doneText="Ok" cancelText="Cancelar" formControlName="hour_to" displayFormat="HH:mm"></ion-datetime>
+
+        </ion-item>
+          <div class="validation-errors">
+                  <ng-container *ngFor="let validation of validation_messages.hour_to">
+                    <div class="error-message" *ngIf="validations_form.get('hour_to').hasError(validation.type) && (validations_form.get('hour_to').dirty || validations_form.get('hour_to').touched)">
+                      {{ validation.message }}
+                    </div>
+                  </ng-container>
+                </div>
+        
+        <ion-item class="ion-no-padding">
+          <ion-label position="floating">Precio</ion-label>
+          <ion-select doneText="Ok" cancelText="Cancelar" formControlName="price">
+            <ion-select-option></ion-select-option>
+            <ion-select-option>$</ion-select-option>
+            <ion-select-option>$$</ion-select-option>
+            <ion-select-option>$$$</ion-select-option>
+          </ion-select>
+        </ion-item>
+          <div class="validation-errors">
+                  <ng-container *ngFor="let validation of validation_messages.price">
+                    <div class="error-message" *ngIf="validations_form.get('price').hasError(validation.type) && (validations_form.get('price').dirty || validations_form.get('price').touched)">
+                      {{ validation.message }}
+                    </div>
+                  </ng-container>
+                </div>
+
+        <!-- <ion-item class="ion-no-padding">
+          <ion-label position="floating">Número de clientes</ion-label>
+          <ion-input formControlName="px" type="number"></ion-input>
+
+        </ion-item>
+          <div class="validation-errors">
+                  <ng-container *ngFor="let validation of validation_messages.px">
+                    <div class="error-message" *ngIf="validations_form.get('px').hasError(validation.type) && (validations_form.get('px').dirty || validations_form.get('px').touched)">
+                      {{ validation.message }}
+                    </div>
+                  </ng-container>
+                </div> -->
+
+        <!-- <ion-item class="ion-no-padding">
+          <ion-label position="floating">Mesa</ion-label>
+          <ion-input formControlName="table" type="number"></ion-input>
+
+        </ion-item>
+          <div class="validation-errors">
+                  <ng-container *ngFor="let validation of validation_messages.table">
+                    <div class="error-message" *ngIf="validations_form.get('table').hasError(validation.type) && (validations_form.get('table').dirty || validations_form.get('table').touched)">
+                      {{ validation.message }}
+                    </div>
+                  </ng-container>
+                </div> -->
+
+        <!-- <ion-item class="ion-no-padding">
+          <ion-label position="floating">Requerir DNI</ion-label>
+          <ion-checkbox formControlName="require_dni" value="1"></ion-checkbox>
+
+        </ion-item> -->
+
+      </ion-list>
+
+      <button type="submit" class="je-button" [disabled]="!validations_form.valid">Guardar Información</button>
+
+    </form>
+
+  </div>
+
+</ion-content>
