@@ -18,7 +18,7 @@ import "firebase/storage";
 
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook/ngx';
 
-import { SignInWithApple, AppleSignInResponse, AppleSignInErrorResponse, ASAuthorizationAppleIDRequest } from '@ionic-native/sign-in-with-apple/ngx';
+import { SignInWithApple, AppleSignInResponse, AppleSignInErrorResponse, ASAuthorizationAppleIDRequest } from '@awesome-cordova-plugins/sign-in-with-apple/ngx';
 
 @Injectable({
   providedIn: 'root'
@@ -264,6 +264,10 @@ export class ApiService {
   {
     return this.http.post(this.url+'findUsers',data);
   }
+  returnToken(data)
+  {
+    return this.http.post(this.url+'returnToken',data);
+  }
 
   socialLogin(data)
   {
@@ -379,19 +383,46 @@ export class ApiService {
 
           // alert('Send token to apple for verification: ' + res.identityToken);
 
-          let user = {
-            name: res.fullName.givenName+' '+res.fullName.familyName,
-            email: res.email,
-          }
+          let email;
 
-          console.log(res,JSON.stringify(user));
-          
           if (!res.email || res.email == "") {
-            return this.alert.create({message:"No ha sido posible obtener el email de la cuenta, no puede iniciar sesión"}).then(a=>{a.present();setTimeout(()=>{a.dismiss()},3000)});
+
+            if (localStorage.getItem('apple_user')) {
+
+              this.socialLogin(JSON.parse(localStorage.getItem('apple_user')));
+
+            }else{
+              this.returnToken({identity_token:res.identityToken}).subscribe((data:any)=>{
+
+                let user = {
+                  name: data.email,
+                  email: data.email,
+                }
+                console.log(res,data,JSON.stringify(user));
+
+                localStorage.setItem('apple_user',JSON.stringify(user))
+                this.socialLogin(user);
+              },err=>{
+
+                if (!email || email == "") {
+                  return this.alert.create({message:"No ha sido posible obtener el email de la cuenta, no puede iniciar sesión"}).then(a=>{a.present();setTimeout(()=>{a.dismiss()},3000)});
+                }
+              })
+            }
+            
+
+          }else{
+
+            let user = {
+              name: res.fullName.givenName+' '+res.fullName.familyName,
+              email: res.email,
+            }
+
+            localStorage.setItem('apple_user',JSON.stringify(user))
+            this.socialLogin(user);
+
           }
 
-          localStorage.setItem('apple_user',JSON.stringify(user))
-          this.socialLogin(user);
 
           //
 

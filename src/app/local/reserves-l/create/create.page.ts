@@ -243,6 +243,13 @@ export class CreatePage implements OnInit {
 
         let start = moment("2021-01-01 "+i.hour_from).startOf('hour');
 
+        if (start.format("Y-MM-DD HH:mm") > to) {
+          console.log('se cierra al otro dia');
+          to = moment(to).add(1,'days').format("Y-MM-DD HH:mm");
+        }else{
+          console.log('se cierra el mismo dia');
+        }
+
         do {
           
           let today = start.format("HH:mm");

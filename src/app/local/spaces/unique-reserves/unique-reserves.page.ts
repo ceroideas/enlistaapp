@@ -133,4 +133,32 @@ export class UniqueReservesPage implements OnInit {
     }]}).then(a=>a.present());
   }
 
+  acceptReserve(s)
+  {
+    this.alert.create({message:"¿Desea cambiar el status de la reserva?", buttons: [{
+      text:"Si",
+      handler:()=>{
+        this.loading.create().then(l=>{
+
+          l.present();
+
+          this.api.llegadaInvitado({code:s.code}).subscribe(data=>{
+            l.dismiss();
+            this.alert.create({message:"La reserva ha sido canjeada"}).then(a=>{a.present();this.getReservations();})
+          },err=>{
+            l.dismiss();
+            var arr = Object.keys(err.error.errors).map(function(k) { return err.error.errors[k] });
+            let errorMessage = arr[0][0];
+            this.alert.create({message:errorMessage}).then(al=>{al.present()});
+          })
+        })
+      }
+    },{
+      text:"No",
+      handler:()=>{
+        
+      }
+    }]}).then(a=>a.present());
+  }
+
 }

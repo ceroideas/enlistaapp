@@ -48,6 +48,11 @@
                 {{s.user.name}} <small>({{s.counts}} reservas hasta la fecha)</small> <br>
                 <!-- <span *ngIf="s.dni">DNI: {{s.dni}} <br></span> -->
               </span>
+
+              <span *ngIf="!s.user">
+                {{s.name}} <small>({{s.phone}})</small> <br>
+                <span><b>{{s.email}}</b> <br></span>
+              </span>
               <span style="display: block; margin-top: 8px; font-size: 12px;">
                 Código de Reserva: <b>{{s.code}}</b>
               </span>
@@ -83,6 +88,15 @@
                 <ion-col size="4" style="text-align: right;"
                 *ngIf="s.user && (s.status == null)">
                   <img [ngClass]="{'opaque':true}" src="assets/escaneo-de-codigo-qr-2.svg" alt="" style="width: 65%; height:auto;">
+                </ion-col>
+
+                <ion-col size="4" style="text-align: right;"
+                *ngIf="!s.user_id && (s.status == 1)"
+                (click)="acceptReserve(s)">
+
+                  <!-- <img [ngClass]="{'opaque':true}" src="assets/1.png" alt="" style="width: 75%; height:auto; border: 1px solid #c1c1c1; border-radius: 3px;"> -->
+
+                  <ion-button color="success" size="medium"> Canjear </ion-button>
                 </ion-col>
               </ion-row>
 

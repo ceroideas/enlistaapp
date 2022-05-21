@@ -161,6 +161,13 @@ export class SchedulePage implements OnInit {
         // console.log(start,i.hour_to);
         // console.log(today1,moment(this.date).format('Y-MM-DD'));
 
+        if (start.format("Y-MM-DD HH:mm") > to) {
+          console.log('se cierra al otro dia');
+          to = moment(to).add(1,'days').format("Y-MM-DD HH:mm");
+        }else{
+          console.log('se cierra el mismo dia');
+        }
+
         do {
 
           // if (to == "23:59" && start.format("HH:mm") > to) {

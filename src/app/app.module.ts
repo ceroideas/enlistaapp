@@ -18,7 +18,7 @@ import { firebaseConfig } from '../environments/environment';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 
 import { Facebook } from '@ionic-native/facebook/ngx';
-import { SignInWithApple } from '@ionic-native/sign-in-with-apple/ngx';
+import { SignInWithApple } from '@awesome-cordova-plugins/sign-in-with-apple/ngx';
 
 @NgModule({
   declarations: [AppComponent],
