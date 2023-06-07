@@ -4,8 +4,8 @@ import { LoadingController, NavController, AlertController, Platform, MenuContro
 import { AuthService } from '../../services/auth.service';
 import { ApiService } from '../../services/api.service';
 
-import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
-import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@awesome-cordova-plugins/file-transfer/ngx';
+import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
 
 import { ConfirmedValidator } from '../../client/profile/confirmed';
 
@@ -74,6 +74,12 @@ export class HomePage implements OnInit {
       ],
     };
 
+    let ids = [];
+
+    for(let e of this.user.establishment.categories) {
+      ids.push(e.category_id);
+    }
+
     this.validations_form = this.formBuilder.group({
       id: new FormControl(this.user.id),
       establishment_id: new FormControl(this.user.establishment.id),
@@ -100,7 +106,7 @@ export class HomePage implements OnInit {
       establishment: new FormControl(this.user.establishment.name, Validators.compose([
         Validators.required
       ])),
-      category_id: new FormControl([], Validators.compose([
+      category_id: new FormControl(ids, Validators.compose([
         Validators.required
       ])),
       description: new FormControl(this.user.establishment.description, Validators.compose([
@@ -124,17 +130,13 @@ export class HomePage implements OnInit {
       validator: ConfirmedValidator('password', 'repeat_password')
     });
 
-    let ids = [];
+    
 
-    for(let e of this.user.establishment.categories) {
-      ids.push(e.category_id);
-    }
-
-    console.log(ids);
+    /*console.log(ids);
 
     this.validations_form.patchValue({
       category_id: ids
-    })
+    })*/
   }
 
   registerUser(value)
@@ -436,5 +438,47 @@ export class HomePage implements OnInit {
        console.log(err);
        // error
      })
+  }
+
+  prompt1()
+  {
+    this.alertCtrl.create({message:"¿Deseas eliminar tu cuenta?", buttons: [
+    {
+      text:"Si",
+      handler:()=>{
+        this.prompt2();
+      }
+    },{
+      text:"No"
+    }
+    ]}).then(a=>a.present());
+  }
+
+  prompt2()
+  {
+    this.alertCtrl.create({message:'Al presionar en "continuar" se eliminará tu cuenta permanentemente y no habrá manera de recuperar ningún tipo de información.', buttons: [
+    {
+      text:"Continuar",
+      handler:()=>{
+        this.loadingCtrl.create().then(l=>{
+
+          l.present();
+
+          this.api.deleteAccount(this.user.id).subscribe(data=>{
+
+            this.auth.logOut();
+            this.nav.navigateRoot('login');
+
+            this.alertCtrl.create({message:"Tu cuenta ha sido eliminada permanentemente. Si quieres crear otra cuenta puedes presionar en \"Regístrate\".", buttons: ["Ok"]}).then(a=>a.present());
+
+            l.dismiss();
+          })
+
+        })
+      }
+    },{
+      text:"Cancelar"
+    }
+    ]}).then(a=>a.present()); 
   }
 }

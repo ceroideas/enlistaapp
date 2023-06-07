@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './services/auth-guard.service';
+import { OffersService } from './services/offers.service';
+import { ReservesService } from './services/reserves.service';
 
 const role:any = localStorage.getItem('role');
 
@@ -65,10 +67,12 @@ const routes: Routes = [
   },
   {
     path: 'spaces',
+    canActivate: [ReservesService],
     loadChildren: () => import('./local/spaces/spaces.module').then( m => m.SpacesPageModule)
   },
   {
     path: 'reserves-l',
+    canActivate: [ReservesService],
     loadChildren: () => import('./local/reserves-l/reserves-l.module').then( m => m.ReservesLPageModule)
   },
   {
@@ -94,6 +98,24 @@ const routes: Routes = [
   {
     path: 'recover',
     loadChildren: () => import('./recover/recover.module').then( m => m.RecoverPageModule)
+  },
+  {
+    path: 'notifications',
+    loadChildren: () => import('./notifications/notifications.module').then( m => m.NotificationsPageModule)
+  },
+  {
+    path: 'offers',
+    canActivate: [OffersService],
+    loadChildren: () => import('./offers/offers.module').then( m => m.OffersPageModule)
+  },
+  {
+    path: 'admin-notifications',
+    canActivate: [OffersService],
+    loadChildren: () => import('./admin-notifications/admin-notifications.module').then( m => m.AdminNotificationsPageModule)
+  },
+  {
+    path: 'mysubscriptions',
+    loadChildren: () => import('./mysubscriptions/mysubscriptions.module').then( m => m.MysubscriptionsPageModule)
   }
 ];
 
@@ -102,7 +124,7 @@ const routes: Routes = [
     RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
   ],
   exports: [RouterModule],
-  providers: [AuthGuard]
+  providers: [AuthGuard, OffersService, ReservesService]
 })
 export class AppRoutingModule {
   constructor() {

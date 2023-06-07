@@ -5,7 +5,7 @@ import { AuthService } from './auth.service';
 @Injectable()
 export class AuthGuard implements CanActivate {
 
-  user = JSON.parse(localStorage.getItem('CLuser'));
+  user = JSON.parse(localStorage.getItem('ELuser'));
   
   constructor(private authService: AuthService, private router: Router) { }
 
@@ -21,7 +21,7 @@ export class AuthGuard implements CanActivate {
        if (!role) {
          return true;
        }
-       if (this.user.role != role) {
+       if (this.user.role_id != role) {
          this.router.navigate(['/start']);
          return false;
        }

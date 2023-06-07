@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { AlertController, NavController, MenuController, ModalController, Platform } from '@ionic/angular';
 import { AuthService } from './services/auth.service';
 import { EventsService } from './services/events.service'
@@ -7,14 +7,16 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 
-import { OneSignal } from '@ionic-native/onesignal/ngx';
+// import { OneSignal } from '@awesome-cordova-plugins/onesignal/ngx';
 
 import { ApiService } from './services/api.service';
 
 import { QrOkPage } from './client/qr-ok/qr-ok.page';
 import { ModalValorationPage } from './client/home/schedule/modal-valoration/modal-valoration.page';
 
-import { GoogleAnalytics } from '@ionic-native/google-analytics/ngx';
+import { GoogleAnalytics } from '@awesome-cordova-plugins/google-analytics/ngx';
+
+import OneSignal from 'onesignal-cordova-plugin';
 
 @Component({
   selector: 'app-root',
@@ -29,6 +31,8 @@ export class AppComponent {
 
   showQr = false;
 
+  count = null;
+
   public policyPages = [
     {
       title: 'Política de Privacidad',
@@ -42,7 +46,10 @@ export class AppComponent {
     }
   ];
   constructor(public alert: AlertController, public nav: NavController, public auth: AuthService, public events: EventsService, public platform: Platform, public ga: GoogleAnalytics,
-    private geolocation: Geolocation, private oneSignal: OneSignal, public api: ApiService, public menu: MenuController, public modal: ModalController, public statusBar: StatusBar) {
+    private geolocation: Geolocation,
+    private change: ChangeDetectorRef,
+    // private oneSignal: OneSignal,
+    public api: ApiService, public menu: MenuController, public modal: ModalController, public statusBar: StatusBar) {
     this.events.subscribe('changeMenu',()=>{
       this.user = JSON.parse(localStorage.getItem('ELuser'));
 
@@ -68,6 +75,13 @@ export class AppComponent {
               // icon: 'paper-plane'
             },
             {
+              title: 'NOTIFICACIONES',
+              url: '/notifications',
+              withLogin: true,
+              showCounts: true,
+              // icon: 'paper-plane'
+            },
+            {
               title: 'CONTACTO',
               url: '/contact',
               withLogin: true,
@@ -86,18 +100,35 @@ export class AppComponent {
             {
               title: 'PERFIL',
               url: '/home-l',
+              show: 1
               // icon: 'mail'
             },
             {
-              title: 'GESTIÓN DE ESPACIOS',
+              title: 'MIS NOTIFICACIONES',
+              url: '/admin-notifications',
+              show: 1
+              // icon: 'heart'
+            },
+            {
+              title: 'ENVIO DE NOTIFICACIONES',
+              url: '/offers',
+              show: 2
+              // icon: 'heart'
+            },
+            {
+              title: 'GESTIÓN DE RESERVAS',
               url: '/spaces',
+              show: 1
               // icon: 'paper-plane'
             },
             {
               title: 'RESERVAS',
               url: '/reserves-l',
+              show: 2
               // icon: 'heart'
             },
+
+
             /*{
               title: 'CLIENTES',
               url: '/customers',
@@ -106,6 +137,7 @@ export class AppComponent {
             {
               title: 'CONTACTO',
               url: '/contact',
+              show: 1
               // icon: 'heart'
             }
           ];
@@ -123,6 +155,16 @@ export class AppComponent {
 
     this.initializeApp();
 
+  }
+
+  getCounts()
+  {
+    this.api.getCountNotif(this.user.id).subscribe(data=>{
+      this.count = data;
+      this.events.publish('menuCounts',data);
+      console.log(this.count);
+      this.change.detectChanges();
+    });
   }
 
   toLogin()
@@ -151,7 +193,55 @@ export class AppComponent {
         this.valoration(r);
       })
 
-      this.initializeOnesignal();
+      this.events.subscribe('openOfferContact',()=>{
+        this.alert.create({message:"Actualmente no puedes enviar notificaciones de ofertas. ¿Quiere ponerte en contacto con nosotros para activar ésta opción?",
+          buttons: [{
+            text:"Si",
+            handler:()=>{
+              localStorage.setItem('contact_info',
+                'Hola, quisiera activar las notificaciones para el envío de ofertas de mi establecimiento.');
+
+              this.nav.navigateRoot('contact');
+
+              this.events.publish('insideContact');
+            }
+          },{
+            text:"No"
+          }]}).then(a=>a.present());
+      })
+
+      this.events.subscribe('openNotificationContact',()=>{
+        this.alert.create({message:"Actualmente no tienes la posibilidad de ofrecer reservas. ¿Quiere ponerte en contacto con nosotros para activar ésta opción?",
+          buttons: [{
+            text:"Si",
+            handler:()=>{
+              localStorage.setItem('contact_info',
+                'Hola, quisiera activar las reservas de mi establecimiento.');
+
+              this.nav.navigateRoot('contact');
+
+              this.events.publish('insideContact');
+            }
+          },{
+            text:"No"
+          }]}).then(a=>a.present());
+      })
+
+      this.events.subscribe('menuCounts',(c)=>{
+        this.count = c;
+      })
+
+      this.events.subscribe('getCounts',(c)=>{
+        this.getCounts();
+      })
+
+      if (this.user && this.user.role_id == 2) {
+        this.getCounts();
+      }
+
+      setTimeout(()=>{
+        this.initializeOnesignal();
+      },10)
     });
   }
 
@@ -216,6 +306,73 @@ export class AppComponent {
 
   initializeOnesignal()
   {
+    OneSignal.setAppId('d20e94e2-5622-472d-a77d-ed9b46752b9d');
+
+    OneSignal.setNotificationWillShowInForegroundHandler((notificationReceivedEvent)=>{
+      notificationReceivedEvent.complete(notificationReceivedEvent.getNotification());
+    });
+
+    OneSignal.promptForPushNotificationsWithUserResponse((accepted) => {
+      console.log('promptForPushNotificationsWithUserResponse: ' + accepted);
+    });
+
+    OneSignal.setNotificationOpenedHandler((jsonData) => {
+      let data:any = jsonData.notification.additionalData;
+
+      console.log(data);
+
+      this.events.publish('getAllReservations');
+      this.events.publish('getMyReservations');
+      this.events.publish('getReservations');
+
+      if (this.user.role_id == 2) {
+        switch (data.type) {
+
+          case "llegada":
+           console.log('notificación de llegada')
+           
+           this.events.publish('goQROk');
+            this.api.getReservation(data.id).subscribe(data=>{
+              this.openQrOk(data);
+            });
+            break;
+
+          case "offer":
+            console.log('notificación de oferta')
+            
+            this.getCounts();
+            this.events.publish('getSubscriptions');
+
+            break;
+          
+          default:
+            // code...
+            console.log('notificación por defecto')
+            break;
+        }
+      }else if (this.user.role_id == 3) {
+        switch (data.type) {
+
+          case "llegada":
+           
+            this.api.getReservation(data.id).subscribe(data=>{
+              // this.openQrOk(data);
+            });
+            break;
+          
+          default:
+            // code...
+            console.log('notificación por defecto')
+            break;
+        }
+      }
+    });
+
+    this.api.getInfo();
+  }
+
+  /*initializeOnesignal()
+  {
     this.oneSignal.startInit('d20e94e2-5622-472d-a77d-ed9b46752b9d', '320184418784');
 
     this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.Notification);
@@ -229,7 +386,7 @@ export class AppComponent {
      this.events.publish('getMyReservations');
      this.events.publish('getReservations');
 
-      if (this.user.role == 2) {
+      if (this.user.role_id == 2) {
         switch (data.type) {
 
           case "llegada":
@@ -239,13 +396,20 @@ export class AppComponent {
               this.openQrOk(data);
             });
             break;
+
+          case "offer":
+            
+            this.events.publish('getSubscriptions');
+            this.getCounts();
+
+            break;
           
           default:
             // code...
             console.log('notificación por defecto')
             break;
         }
-      }else if (this.user.role == 3) {
+      }else if (this.user.role_id == 3) {
         switch (data.type) {
 
           case "llegada":
@@ -284,5 +448,5 @@ export class AppComponent {
       }
 
     });
-  }
+  }*/
 }

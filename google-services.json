@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "320184418784-t1jvcrl7cq6rosq5g243dtoqt81m63lj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.enlista.app",
+            "certificate_hash": "adfc1b150e40bd4003e93efd3ddf86e3796f8150"
+          }
+        },
+        {
           "client_id": "320184418784-5mptdsju0r8o8injcg9rrbvjqv7v2etp.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,6 +37,13 @@
             {
               "client_id": "320184418784-5mptdsju0r8o8injcg9rrbvjqv7v2etp.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "320184418784-fd4eaele9rqqhlv28iv3s0arf927bagu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.enlista.app"
+              }
             }
           ]
         }

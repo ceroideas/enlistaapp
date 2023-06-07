@@ -9,9 +9,10 @@
           <!-- <ion-note>hi@ionicframework.com</ion-note> -->
 
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
-            <ion-item (click)="checkLogin(p.withLogin,p.url);selectedIndex = i" routerDirection="root" lines="none" detail="false" [class.selected]="selectedIndex == i">
+            <ion-item (click)="checkLogin(p.withLogin,p.url);selectedIndex = i" routerDirection="root" lines="none" detail="false" *ngIf="user.role_id == 2 || (user.role_id == 3 && p.show > 0)" [ngClass]="{'smallItem': p.show > 1}">
               <!-- <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon> -->
-              <ion-label>{{ p.title }}</ion-label>
+              <ion-label class="labelSmall">{{ p.title }}</ion-label>
+              <div style="position: absolute; background-color: #fff; color: #b42d66; font-size: 12px; border-radius: 8px; padding: 3px 8px; text-align: center; right: 0px;" *ngIf="p.showCounts && count > 0">{{count}}</div>
             </ion-item>
           </ion-menu-toggle>
 
@@ -29,7 +30,7 @@
 
 
           <ion-menu-toggle auto-hide="false" *ngFor="let p of policyPages; let i = index">
-            <ion-item (click)="selectedIndex = i" routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" [class.selected]="selectedIndex == i">
+            <ion-item (click)="selectedIndex = i" routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false">
               <!-- <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon> -->
               <ion-label>{{ p.title }}</ion-label>
             </ion-item>
@@ -38,7 +39,7 @@
 
         <!-- <div (click)="test()">TEST</div> -->
 
-        <div *ngIf="!showQr && user?.id != -1" style="display: flex; align-items: center;">
+        <div (click)="getCounts()" *ngIf="!showQr && user?.id != -1" style="display: flex; align-items: center;">
           <br>
           <br>
           <br>
@@ -64,4 +65,34 @@
     </ion-menu>
     <ion-router-outlet id="main-content"></ion-router-outlet>
   </ion-split-pane>
+
+  <div style="
+    position: absolute;
+    background-color: #b42d66;
+    color: #fff;
+    font-size: 34px;
+    border-radius: 50px;
+    padding: 7px;
+    text-align: center;
+    right: 20px;
+    bottom: 20px;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    "  (click)="api.showmenu()" [ngStyle]="{'display':count > 0 ? 'block' : 'none'}">
+
+    <ion-icon name="notifications"></ion-icon>
+
+    <span style="
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    font-size: 10px;
+    background-color: crimson;
+    padding: 1px;
+    border-radius: 8px;
+    width: 18px;
+    ">{{count}}</span>
+
+  </div>
 </ion-app>

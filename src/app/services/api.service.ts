@@ -20,6 +20,8 @@ import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook/ngx';
 
 import { SignInWithApple, AppleSignInResponse, AppleSignInErrorResponse, ASAuthorizationAppleIDRequest } from '@awesome-cordova-plugins/sign-in-with-apple/ngx';
 
+import OneSignal from 'onesignal-cordova-plugin';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -34,6 +36,8 @@ export class ApiService {
   name;
   email;
 
+  interval;
+
   /**/
 
   constructor(private http: HttpClient, public nav: NavController, public modal: ModalController, public alert: AlertController, public auth: AuthService, public menu: MenuController, public platform: Platform,
@@ -41,6 +45,39 @@ export class ApiService {
     // this.url = 'http://127.0.0.1:8000/api/';
     this.url = environment.url+'api/';
     this.baseUrl = environment.url;
+  }
+
+  getInfo()
+  {
+    this.interval = setInterval(()=>{
+
+      OneSignal.getDeviceState((ids: any) => {
+        localStorage.setItem('onesignal_id',ids.userId);
+
+        if (!this.platform.is('cordova')) {
+          clearInterval(this.interval);
+          alert('desktop');
+        }
+
+        if (ids.userId) {
+          // alert(JSON.stringify(ids));
+
+          clearInterval(this.interval);
+
+          if (localStorage.getItem('ELuser')) {
+            let onesignal_id = localStorage.getItem('onesignal_id');
+
+            let user = JSON.parse(localStorage.getItem('ELuser'));
+
+            this.saveOneSignalId({id:user.id,onesignal_id:onesignal_id})
+            .subscribe(
+              data => {console.log('ok');},
+              err => {console.log(err);}
+            );
+          }
+        }
+      });
+    },1000)
   }
   //
   back() {
@@ -88,6 +125,9 @@ export class ApiService {
         }
 
         this.auth.logOut();
+
+        this.events.publish('menuCounts',0);
+
         this.nav.navigateRoot('login');
 
 
@@ -99,6 +139,19 @@ export class ApiService {
   }
   //
 
+  checkCapabilities(id)
+  {
+    return this.http.get(this.url+'checkCapabilities/'+id);
+  }
+  hideNotification(id)
+  {
+    return this.http.get(this.url+'hideNotification/'+id);
+  }
+
+  pushOffers(data)
+  {
+    return this.http.post(this.url+'pushOffers',data);
+  }
   sendNotification(data)
   {
     return this.http.post(this.url+'sendNotification',data);
@@ -269,6 +322,47 @@ export class ApiService {
     return this.http.post(this.url+'returnToken',data);
   }
 
+  createSubscription(data)
+  {
+    return this.http.post(this.url+'createSubscription',data);
+  }
+  deleteSubscription(data)
+  {
+    return this.http.post(this.url+'deleteSubscription',data);
+  }
+  deleteSubscription2(data)
+  {
+    return this.http.post(this.url+'deleteSubscription2',data);
+  }
+  getSubscriptions(id)
+  {
+    return this.http.get(this.url+'getSubscriptions/'+id);
+  }
+  getAdminNotifications(id)
+  {
+    return this.http.get(this.url+'getAdminNotifications/'+id);
+  }
+  getAdminSubscriptions(id)
+  {
+    return this.http.get(this.url+'getAdminSubscriptions/'+id);
+  }
+  viewNotification(id)
+  {
+    return this.http.get(this.url+'viewNotification/'+id);
+  }
+  getCountNotif(id)
+  {
+    return this.http.get(this.url+'getCountNotif/'+id);
+  }
+  setViewed(id)
+  {
+    return this.http.get(this.url+'setViewed/'+id);
+  }
+  deleteAccount(id)
+  {
+    return this.http.get(this.url+'deleteAccount/'+id);
+  }
+
   socialLogin(data)
   {
     this.loading.create().then((l)=>{
@@ -282,6 +376,7 @@ export class ApiService {
 
         if (data.role_id == 2){
           this.nav.navigateRoot('home-c');
+          this.events.publish('getCounts');
         }
         else{
           this.nav.navigateRoot('home-l');

@@ -5,8 +5,8 @@ import { LoadingController, NavController, AlertController, Platform, MenuContro
 import { ApiService } from '../../../services/api.service';
 import { EventsService } from '../../../services/events.service';
 
-import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
-import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@awesome-cordova-plugins/file-transfer/ngx';
+import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
 
 @Component({
   selector: 'app-create',

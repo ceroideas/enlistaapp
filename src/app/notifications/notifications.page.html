@@ -1,0 +1,62 @@
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-title>login</ion-title>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content>
+
+  <div class="top-login" style="background-image: url('assets/img/el-cartero-la-historia-del-famoso-oficio-en-mexico.jpg');">
+
+    <ion-icon name="menu-outline" (click)="api.showmenu()" class="menu-button cw"></ion-icon>
+
+    <div class="top-logo">
+      <img src="assets/logo-01.svg" alt="">
+    </div>
+    
+  </div>
+
+  <div class="form">
+
+  <h3>
+
+    Notificaciones <br>
+
+    <small>Estás suscrito a los siguientes locales</small>
+
+  </h3>
+
+  <br>
+
+  <div *ngFor="let i of e">
+    
+    <div style="text-align: left;">
+      
+      <h5 style="border-bottom: 1px solid #222; color: #222; padding: 10px 4px; position: relative;">{{i.name}}
+
+        <div (click)="desubscriptionPrompt(i)"
+        style="position: absolute; right: 0; top: 0; color: crimson; font-size: 32px;"
+        ><ion-icon slot="icon-only" name="close-outline"></ion-icon></div>
+
+      </h5>
+
+      <div *ngIf="i?.notifications?.length">
+        <div *ngFor="let n of i.notifications">
+          <ion-button fill="clear" expand="block" style="color: #666; text-align: left; --padding-start: 4px"
+          (click)="viewNotification(n)">
+            <div style="width: 100%;" [ngStyle]="{'font-weight': (n.viewed ? 'normal' : 'bolder') }">{{n.title}}</div>
+          </ion-button>
+        </div>
+      </div>
+
+      <div *ngIf="!i?.notifications?.length">
+        <small><i>No hay notificaciones que mostrar</i></small>
+      </div>
+
+    </div>
+
+  </div>
+
+  </div>
+
+</ion-content>

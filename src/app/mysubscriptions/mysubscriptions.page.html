@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Suscriptores</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list>
+    <ion-item *ngFor="let u of subs" style="margin: 16px 0;">
+      <div class="user-img-2" slot="start" [ngStyle]="{'background-image':'url('+api.baseUrl+'storage/'+(u.user.avatar | normalize)+')'}">
+      </div>
+
+      <div>
+        
+      {{u.user.name}} - {{u.user.email}} <br>
+
+      <!-- <div style="margin: 4px 0;">
+        <ion-button size="small" color="warning" (click)="" class="ion-no-margin">Cancelar Suscripción</ion-button>
+      </div> -->
+
+      </div>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

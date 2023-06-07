@@ -1,0 +1,79 @@
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-title>login</ion-title>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content>
+
+  <div class="top-login" style="background-image: url('assets/img/el-cartero-la-historia-del-famoso-oficio-en-mexico.jpg');">
+
+    <ion-icon name="menu-outline" (click)="api.showmenu()" class="menu-button cw"></ion-icon>
+
+    <div class="top-logo">
+      <img src="assets/logo-01.svg" alt="">
+    </div>
+    
+  </div>
+
+  <form class="form" [formGroup]="validations_form" (ngSubmit)="contact(validations_form.value)">
+
+    <h3>
+
+      Envío de Notificaciones <br>
+
+    </h3>
+
+      <small>Se enviará una notificación a cada usuario que esté suscrito a tu establecimiento. <br> 
+
+      Notificaciones restantes del mes: <b *ngIf="showcapability">{{capability}}</b></small>
+
+      <br>
+      <br>
+
+    <ion-list>
+
+      <ion-item class="ion-no-padding">
+        <ion-label position="floating">Titulo</ion-label>
+        <ion-input formControlName="title" type="text"></ion-input>
+
+        <!-- <span slot="end" *ngIf="name.length > 8"> -->
+          <!-- <ion-icon name="checkmark"></ion-icon> -->
+        <!-- </span> -->
+      </ion-item>
+        <div class="validation-errors">
+                <ng-container *ngFor="let validation of validation_messages.title">
+                  <div class="error-message" *ngIf="validations_form.get('title').hasError(validation.type) && (validations_form.get('title').dirty || validations_form.get('title').touched)">
+                    {{ validation.message }}
+                  </div>
+                </ng-container>
+              </div>
+
+      <ion-item class="ion-no-padding">
+        <ion-label position="floating">Mensaje</ion-label>
+        <ion-textarea formControlName="message"></ion-textarea>
+      </ion-item>
+        <div class="validation-errors">
+                <ng-container *ngFor="let validation of validation_messages.message">
+                  <div class="error-message" *ngIf="validations_form.get('message').hasError(validation.type) && (validations_form.get('message').dirty || validations_form.get('message').touched)">
+                    {{ validation.message }}
+                  </div>
+                </ng-container>
+              </div>
+
+      <ion-item class="ion-no-padding">
+        <ion-label position="floating">¿Cuándo se envía?</ion-label>
+
+        <ion-datetime formControlName="notification" doneText="Ok" cancelText="Cancelar" [min]="minY" [max]="maxY" display-format="DD-MM-YYYY HH:mm"></ion-datetime>
+
+      </ion-item>
+
+      <!-- <ion-item>
+      </ion-item> -->
+    </ion-list>
+
+    <button type="submit" class="je-button" [disabled]="!validations_form.valid">Enviar Notificación</button>
+
+  </form>
+
+</ion-content>

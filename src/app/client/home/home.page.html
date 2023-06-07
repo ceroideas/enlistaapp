@@ -3,9 +3,11 @@
   <div class="ion-padding">
     
     <h4>
-      <ion-icon name="chevron-back" (click)="api.logout()" class="back-button1"></ion-icon>
+      <ion-icon style="font-size: 24px;" name="chevron-back" (click)="api.logout()" class="back-button1"></ion-icon>
 
-      <ion-icon name="menu-outline" style="right: 24px;" (click)="api.showmenu()" class="menu-button"></ion-icon>
+      <ion-icon style="font-size: 24px;" name="menu-outline" style="right: 24px;" (click)="api.showmenu()" class="menu-button">
+      </ion-icon>
+      <!-- <div style="position: absolute; background-color: #b42d66; color: #fff; font-size: 10px; border-radius: 8px; padding: 3px 8px; text-align: center; right: 20px; top: 20px;" (click)="api.showmenu()" *ngIf="count > 0">{{count}}</div> -->
 
       <span class="titles">¿A dónde <br> vamos?</span>
 
@@ -78,12 +80,15 @@
           <!-- <ion-slide *ngFor="let null of featured.data | search:query"> -->
           <ion-slide *ngFor="let e of featured | search:query">
 
-              <div style="width: 100%; text-align: left; margin-bottom: 16px; padding-left: 32px;" (click)="addParam(null)" [routerLink]="'details/'+e.id">
-                <div class="rest-pic" [ngStyle]="{'background-image':'url('+api.baseUrl+'storage/'+(e.image | normalize)+')'}">
+              <div style="width: 100%; text-align: left; margin-bottom: 16px; padding-left: 32px;" (click)="addParam(null)">
+                <div class="rest-pic" [ngStyle]="{'background-image':'url('+api.baseUrl+'storage/'+(e.image | normalize)+')'}" [routerLink]="'details/'+e.id">
                   
                 </div>
 
-                <span class="rest-name">{{e.name}}</span>
+                <span class="rest-name" [routerLink]="'details/'+e.id">{{e.name}}</span>
+
+                <i style="float: right; font-size: 12px; font-weight: bold; color: #111" (click)="subscriptionPrompt(e)" *ngIf="!(e | checkSubscription:user.id)"> SEGUIR </i>
+                <i style="float: right; font-size: 12px; font-weight: bold; color: #999" (click)="desubscriptionPrompt(e)" *ngIf="(e | checkSubscription:user.id)"> SIGUIENDO </i>
 
                 <div style="font-size: 11px; line-height: 1.8" class="ovf">
 
@@ -124,12 +129,15 @@
           <!-- <ion-slide *ngFor="let null of featured.data | search:query"> -->
           <ion-slide *ngFor="let e of closer | search:query">
 
-              <div style="width: 100%; text-align: left; margin-bottom: 16px; padding-left: 32px;" (click)="addParam(null)" [routerLink]="'details/'+e.id">
-                <div class="rest-pic" [ngStyle]="{'background-image':'url('+api.baseUrl+'storage/'+(e.image | normalize)+')'}">
+              <div style="width: 100%; text-align: left; margin-bottom: 16px; padding-left: 32px;" (click)="addParam(null)">
+                <div class="rest-pic" [ngStyle]="{'background-image':'url('+api.baseUrl+'storage/'+(e.image | normalize)+')'}" [routerLink]="'details/'+e.id">
                   
                 </div>
 
-                <span class="rest-name">{{e.name}}</span>
+                <span class="rest-name" [routerLink]="'details/'+e.id">{{e.name}}</span>
+
+                <i style="float: right; font-size: 12px; font-weight: bold; color: #111" (click)="subscriptionPrompt(e)" *ngIf="!(e | checkSubscription:user.id)"> SEGUIR </i>
+                <i style="float: right; font-size: 12px; font-weight: bold; color: #999" (click)="desubscriptionPrompt(e)" *ngIf="(e | checkSubscription:user.id)"> SIGUIENDO </i>
 
                 <div style="font-size: 11px; line-height: 1.8" class="ovf">
 
@@ -170,12 +178,15 @@
           <!-- <ion-slide *ngFor="let null of featured.data | search:query"> -->
           <ion-slide *ngFor="let e of stars | search:query">
 
-              <div style="width: 100%; text-align: left; margin-bottom: 16px; padding-left: 32px;" (click)="addParam(null)" [routerLink]="'details/'+e.id">
-                <div class="rest-pic" [ngStyle]="{'background-image':'url('+api.baseUrl+'storage/'+(e.image | normalize)+')'}">
+              <div style="width: 100%; text-align: left; margin-bottom: 16px; padding-left: 32px;" (click)="addParam(null)">
+                <div class="rest-pic" [ngStyle]="{'background-image':'url('+api.baseUrl+'storage/'+(e.image | normalize)+')'}" [routerLink]="'details/'+e.id">
                   
                 </div>
 
-                <span class="rest-name">{{e.name}}</span>
+                <span class="rest-name" [routerLink]="'details/'+e.id">{{e.name}}</span>
+
+                <i style="float: right; font-size: 12px; font-weight: bold; color: #111" (click)="subscriptionPrompt(e)" *ngIf="!(e | checkSubscription:user.id)"> SEGUIR </i>
+                <i style="float: right; font-size: 12px; font-weight: bold; color: #999" (click)="desubscriptionPrompt(e)" *ngIf="(e | checkSubscription:user.id)"> SIGUIENDO </i>
 
                 <div style="font-size: 11px; line-height: 1.8" class="ovf">
 

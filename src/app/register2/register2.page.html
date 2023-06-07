@@ -173,8 +173,12 @@
         <label (click)="changeLocal()"> Soy un local (Provisional)</label>
       </ion-label> -->
 
-      <p style="color: #ccc; font-size: 12px; text-align: justify; line-height: 1.6">
-        Clickando en regístrate estás aceptando nuestros términos y condiciones y declaras haber leído nuestra política de datos. Policy.
+      <p style="color: #aaa; font-size: 12px; text-align: justify; line-height: 1.6">
+        <label (click)="nullPolicy()">
+          <input type="checkbox" formControlName="policy" style="position: relative;top: 2px;transform: scale(1.5);margin: 5px;">
+          Acepto los términos y condiciones, y declaro haber leído la política de datos.
+        </label>
+        <!-- Clickando en regístrate estás aceptando nuestros términos y condiciones y declaras haber leído nuestra política de datos. Policy. -->
       </p>
 
     <button type="submit" class="je-button" [disabled]="!validations_form.valid">Regístrate</button>

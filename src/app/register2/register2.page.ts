@@ -94,8 +94,20 @@ export class Register2Page implements OnInit {
       phone: new FormControl(null, Validators.compose([
         Validators.required
       ])),
-      role_id: new FormControl(3)
+      role_id: new FormControl(3),
+      policy: new FormControl(null, Validators.compose([
+        Validators.required
+      ])),
     });
+  }
+
+  nullPolicy()
+  {
+    setTimeout(()=>{
+      if (this.validations_form.value.policy == false) {
+        this.validations_form.patchValue({policy: null});
+      }
+    },10);
   }
 
   registerUser(value)

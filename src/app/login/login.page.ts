@@ -82,9 +82,12 @@ export class LoginPage implements OnInit {
         localStorage.setItem('role',data.role_id);
 
         this.events.publish('changeMenu');
+        this.events.publish('reloadService1');
+        this.events.publish('reloadService2');
 
         if (data.role_id == 2){
           this.nav.navigateRoot('home-c');
+          this.events.publish('getCounts');
         }
         else{
           this.nav.navigateRoot('home-l');

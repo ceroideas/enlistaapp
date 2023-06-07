@@ -4,8 +4,8 @@ import { LoadingController, NavController, AlertController, Platform, MenuContro
 import { AuthService } from '../../services/auth.service';
 import { ApiService } from '../../services/api.service';
 
-import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
-import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@awesome-cordova-plugins/file-transfer/ngx';
+import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
 
 import { ConfirmedValidator } from './confirmed';
 
@@ -145,6 +145,48 @@ export class ProfilePage implements OnInit {
        console.log(err);
        // error
      })
+  }
+
+  prompt1()
+  {
+    this.alertCtrl.create({message:"¿Deseas eliminar tu cuenta?", buttons: [
+    {
+      text:"Si",
+      handler:()=>{
+        this.prompt2();
+      }
+    },{
+      text:"No"
+    }
+    ]}).then(a=>a.present());
+  }
+
+  prompt2()
+  {
+    this.alertCtrl.create({message:'Al presionar en "continuar" se eliminará tu cuenta permanentemente y no habrá manera de recuperar ningún tipo de información.', buttons: [
+    {
+      text:"Continuar",
+      handler:()=>{
+        this.loadingCtrl.create().then(l=>{
+
+          l.present();
+
+          this.api.deleteAccount(this.user.id).subscribe(data=>{
+
+            this.auth.logOut();
+            this.nav.navigateRoot('login');
+
+            this.alertCtrl.create({message:"Tu cuenta ha sido eliminada permanentemente. Si quieres crear otra cuenta puedes presionar en \"Regístrate\".", buttons: ["Ok"]}).then(a=>a.present());
+
+            l.dismiss();
+          })
+
+        })
+      }
+    },{
+      text:"Cancelar"
+    }
+    ]}).then(a=>a.present()); 
   }
 
 }

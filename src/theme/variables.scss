@@ -755,3 +755,19 @@ ion-app.cameraView, ion-app.cameraView ion-content, ion-app.cameraView .nav-deco
     content: '' !important;
   }
 }
+
+.smallItem {
+  margin-bottom: -10px;
+  ion-label {
+    padding-left: 32px;
+    top: -10px;
+    position: relative;
+  }
+  ion-label.labelSmall {
+    font-size: 12px !important;
+  }
+}
+
+.je-button[disabled] {
+  opacity: .7;
+}

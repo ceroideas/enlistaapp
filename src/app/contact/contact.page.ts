@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { LoadingController, NavController, AlertController, Platform, MenuController } from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
 import { ApiService } from '../services/api.service';
+import { EventsService } from '../services/events.service';
 
 @Component({
   selector: 'app-contact',
@@ -18,7 +19,16 @@ export class ContactPage implements OnInit {
   user = JSON.parse(localStorage.getItem('ELuser'));
 
   constructor(public auth: AuthService, public formBuilder: FormBuilder, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public nav: NavController, public menu: MenuController,
-    public api: ApiService) {
+    public api: ApiService, public events: EventsService) {
+
+    this.events.subscribe('insideContact',()=>{
+      if (localStorage.getItem('contact_info')) {
+        this.validations_form.patchValue({
+          message: localStorage.getItem('contact_info')
+        });
+        localStorage.removeItem('contact_info');
+      }
+    })
   }
 
   ngOnInit() {
@@ -46,6 +56,13 @@ export class ContactPage implements OnInit {
       message: new FormControl(null, Validators.compose([
         Validators.required])),
     });
+
+    if (localStorage.getItem('contact_info')) {
+      this.validations_form.patchValue({
+        message: localStorage.getItem('contact_info')
+      });
+      localStorage.removeItem('contact_info');
+    }
   }
 
   contact(value)
@@ -56,7 +73,7 @@ export class ContactPage implements OnInit {
 
         l.dismiss();
 
-        this.alertCtrl.create({message:"Muchas gracias por contactar con nosotros, en breve te daremos una respuesta!"}).then(a=>{a.present()});
+        this.alertCtrl.create({message:"Muchas gracias por contactar con nosotros, en breve te daremos una respuesta!", buttons: ['OK']}).then(a=>{a.present()});
 
       },err=>{
         l.dismiss();

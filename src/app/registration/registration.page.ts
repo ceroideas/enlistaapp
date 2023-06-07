@@ -56,7 +56,19 @@ export class RegistrationPage implements OnInit {
       phone: new FormControl(null, Validators.compose([
         Validators.required
       ])),
+      policy: new FormControl(null, Validators.compose([
+        Validators.required
+      ])),
     });
+  }
+
+  nullPolicy()
+  {
+    setTimeout(()=>{
+      if (this.validations_form.value.policy == false) {
+        this.validations_form.patchValue({policy: null});
+      }
+    },10);
   }
 
   registerUser(value)

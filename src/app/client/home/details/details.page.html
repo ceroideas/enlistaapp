@@ -87,8 +87,21 @@
     </ion-slides>
   
 
-    <div class="kitchen-info">
-      <h6>{{e.name}}</h6>
+    <div class="kitchen-info" style="position: relative;">
+
+      <!-- <div class="subscription-btn" (click)="subscriptionPrompt()" *ngIf="!subscribed">
+        <img src="assets/mailbox.png" alt="">
+      </div>
+
+      <div class="subscription-btn" style="background-color: rgba(115,115,115,.7);" (click)="desubscriptionPrompt()" *ngIf="subscribed">
+        <img src="assets/mailbox.png" alt="">
+      </div> -->
+
+
+      <h6 style="margin: 16px auto 10px; width: 50%">{{e.name}}</h6>
+
+      <p>{{e.description}}</p>
+
       <span style="color: gold">
         <ion-icon [name]="'star' +( (e.stars > 0) ? '' : '-outline') "></ion-icon>
         <ion-icon [name]="'star' +( (e.stars > 1) ? '' : '-outline') "></ion-icon>
@@ -128,7 +141,7 @@
 
         <div
         *ngFor="let s of e.spaces"
-        style="width: 100%; text-align: left; margin-bottom: 24px; padding: 0 32px;" (click)="addParam(null)" [routerLink]="'../../schedule/'+s.id">
+        style="width: 100%; text-align: left; margin-bottom: 24px; padding: 0 32px;" (click)="addParam(s.id)">
           <div class="rest-pic" [ngStyle]="{'background-image':'url('+api.baseUrl+'storage/'+(s.image | normalize)+')'}">
             
           </div>

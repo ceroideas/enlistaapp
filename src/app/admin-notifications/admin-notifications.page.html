@@ -1,0 +1,45 @@
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-title>login</ion-title>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content>
+
+  <div class="top-login" style="background-image: url('assets/img/el-cartero-la-historia-del-famoso-oficio-en-mexico.jpg');">
+
+    <ion-icon name="menu-outline" (click)="api.showmenu()" class="menu-button cw"></ion-icon>
+
+    <div class="top-logo">
+      <img src="assets/logo-01.svg" alt="">
+    </div>
+    
+  </div>
+
+  <div class="form">
+
+  <h3>
+
+    Notificaciones Enviadas <br>
+
+    <small>Mostrando notificaciones de los últimos 45 días</small> <br>
+
+    <!-- <span *ngIf="subs.length" style="font-size: 18px; font-style: italic;" (click)="subsModal()">Ver suscriptores</span> -->
+    <span *ngIf="subs.length" style="font-size: 18px; font-style: italic;">{{subs.length}} Suscriptores</span>
+
+  </h3>
+
+  <br>
+
+  <div *ngIf="notifications?.length">
+    <div *ngFor="let n of notifications">
+      <ion-button fill="clear" expand="block" style="color: #666; text-align: left; --padding-start: 4px"
+      (click)="viewNotification(n)">
+        <div style="width: 100%">{{n.title}}</div>
+      </ion-button>
+    </div>
+  </div>
+
+  </div>
+
+</ion-content>

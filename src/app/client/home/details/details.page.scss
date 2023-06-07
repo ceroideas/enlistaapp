@@ -9,3 +9,17 @@
 	--bullet-background: #b42d66;
 	--bullet-background-active: #b42d66;
 }
+
+.subscription-btn {
+	background-color: #b42d66cc;
+	border-radius: 80px;
+	width: 50px;
+	padding: 2px;
+	position: absolute;
+	right: 20px;
+	top: 20px;
+	img {
+		width: 70%;
+		margin: auto;
+	}
+}
